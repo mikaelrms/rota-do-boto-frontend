@@ -20,8 +20,13 @@ export default function Navbar() {
   return (
     <nav className=" top-0 left-0 w-full h-4 z-100 bg-sky-950 flex justify-between items-center px-6 py-6">
       
-      <div className="flex items-center gap-2 px-4">
-        <Link to="/" className="text-white text-3xl cursor-pointer transition-transform duration-200 hover:scale-105">🐬</Link>
+      <div className="absolute -ml-2 left-1/2 -translate-x-1/2 md:static md:translate-x-0 flex items-center">
+        <Link to="/" className="flex items-center gap-3">
+          <img src="/logo4.png" alt="Logo da Rota do Boto" className="h-14 w-auto object-contain"/>
+          <span style={{ fontFamily: "LogoFont" }} className="text-white text-2xl font italic -ml-4">
+            Rota do Boto
+          </span>
+        </Link>
       </div>
 
       <div className="flex-1 mx-6 max-w-xl relative">

@@ -23,9 +23,9 @@ const Recepcao = () => {
         </h1>
 
         {/* Subtítulo H2 - Aumentando o mb para descer o card */}
-<h2 className="text-gray-200 text-lg sm:text-2xl md:text-3xl mt-4 mb-44 max-w-3xl font-medium drop-shadow-md">
-  Sua viagem pelos rios da Amazônia começa aqui!
-</h2>
+        <h2 className="text-gray-200 text-lg sm:text-2xl md:text-3xl mt-4 mb-44 max-w-3xl font-medium drop-shadow-md">
+          Sua viagem pelos rios da Amazônia começa aqui!
+        </h2>
 
         <TravelCard />
       </div>
