@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import TravelSearchCard from './components/TravelSearchCard.jsx'
 import CardEmAlta from './components/CardEmAlta.jsx'
@@ -15,6 +15,7 @@ const listaCidades = [
 ];
 
 function Home() {
+
   return (
     <>
     {/* BACKGROUND */}
@@ -33,7 +34,9 @@ function Home() {
           <CardEmAlta 
             key={cidade.id} 
             imagem={cidade.imagem} 
-            nome={cidade.nome}/>
+            nome={cidade.nome}
+            id={cidade.id}
+          />
           );
           })}
       </div>
