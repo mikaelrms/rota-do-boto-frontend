@@ -22,7 +22,7 @@ export default function Navbar() {
       
       <div className="absolute -ml-2 left-1/2 -translate-x-1/2 md:static md:translate-x-0 flex items-center">
         <Link to="/" className="flex items-center gap-3">
-          <img src="/logo4.png" alt="Logo da Rota do Boto" className="h-14 w-auto object-contain"/>
+          <img src="/logo4.png" alt="Logo da Rota do Boto" className="h-10 md:h-13 w-auto object-contain"/>
           <span style={{ fontFamily: "LogoFont" }} className="text-white text-2xl font italic -ml-4">
             Rota do Boto
           </span>
