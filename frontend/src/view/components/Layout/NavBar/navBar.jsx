@@ -18,7 +18,7 @@ export default function Navbar() {
   } 
 
   return (
-    <nav className="top-0 left-0 w-full h-4 z-100 bg-sky-950 flex justify-between items-center px-6 py-6">
+    <nav className="sticky top-0 left-0 w-full h-4 z-100 bg-sky-950 flex justify-between items-center px-6 py-6 shadow-lg">
       
       <div className="absolute -ml-2 left-1/2 -translate-x-1/2 md:static md:translate-x-0 flex items-center">
         <Link to="/" className="flex items-center gap-3">
