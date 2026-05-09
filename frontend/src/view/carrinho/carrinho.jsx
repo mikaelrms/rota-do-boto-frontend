@@ -1,6 +1,5 @@
+import { useState } from "react";
 import { useCart } from "../../context/CartContext";
-import { db } from "../../firebaseConfig";
-import { collection, addDoc } from "firebase/firestore";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -10,23 +9,16 @@ function Carrinho() {
   
   const { cart, clearCart } = useCart();
 
-<<<<<<< HEAD
-  fetch("http://localhost:5000/buy", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      tripId: cart.tripId,
-      seats: cart.seats,
-      total: cart.total
-    })
-  });
-=======
-  const handleFinishPurchase = async () => {
-  if (!user || cart.seats.length === 0) return;
+  const [loading, setLoading] = useState(false);
 
-  try {
-    const handleFinishPurchase = async () => {
-  if (!user || cart.seats.length === 0) return;
+const handleBuy = async () => {
+  if (loading) return;
+  if (!user) {
+    alert("Usuário não autenticado");
+    return;
+  }
+
+  setLoading(true);
 
   try {
     const response = await fetch("http://127.0.0.1:8000/buy", {
@@ -40,34 +32,29 @@ function Carrinho() {
         seats: cart.seats,
         total: cart.total,
         origem: "Manaus",
-        destino: "Maués"
+        destino: "Maués",
       }),
     });
 
     const data = await response.json();
 
-    if (!response.ok || data.error) {
-      alert(data.error || "Erro na compra");
+    if (!response.ok) {
+      alert(data.detail || "Erro na compra");
       return;
     }
 
+    alert("Compra realizada com sucesso!");
+
     clearCart();
     navigate("/perfil");
 
   } catch (error) {
-    console.error("Erro ao conectar com backend:", error);
+    console.error(error);
+    alert("Erro ao conectar com servidor");
+  } finally {
+    setLoading(false);
   }
 };
-
-    clearCart();
-
-    navigate("/perfil");
-
-  } catch (error) {
-    console.error("Erro ao finalizar compra:", error);
-  }
-};
->>>>>>> main
 
   return (
     <section className="w-full min-h-screen bg-gray-100 py-6 md:py-10">
@@ -140,10 +127,11 @@ function Carrinho() {
                 </button>
 
                 <button
-                  onClick={handleFinishPurchase}
+                  onClick={handleBuy}
+                  disabled={loading}
                   className="w-full sm:w-60 bg-[#61EE9D] text-black font-semibold py-3 rounded-xl shadow-md hover:brightness-95 transition-all">
-                  Finalizar compra
-                </button>
+                  {loading ? "Processando..." : "Finalizar compra"}
+                 </button>
 
               </div>
             </>

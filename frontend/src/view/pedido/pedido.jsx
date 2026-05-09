@@ -31,7 +31,13 @@ function Pedido() {
 
         if (snap.exists()) {
           const data = snap.data();
-          setOccupiedSeats(data.occupiedSeats || []);
+          const seats = data.seats || {};
+
+          const occupied = Object.keys(seats)
+            .filter((key) => seats[key] === "occupied")
+            .map((key) => Number(key.replace("S", "")));
+
+          setOccupiedSeats(occupied);
         } else {
           console.log("Trip não encontrada");
         }
@@ -112,7 +118,7 @@ function Pedido() {
     const handleContinue = () => {
         if (selectedSeats.length === 0) return;
 
-        addToCart("lancha123", selectedSeats, price);
+        addToCart(tripId, selectedSeats, price);
         
         navigate("/carrinho");
     };

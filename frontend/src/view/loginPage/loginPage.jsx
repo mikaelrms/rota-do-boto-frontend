@@ -22,7 +22,7 @@ const [error, setError] = useState("");
     }
   };
 return (
-<section className="min-h-screen w-full bg-[linear-gradient(#00000080,#0000004D),url('/background.jpg')] 
+<section className="min-h-screen w-full bg-[linear-gradient(#00000080,#0000004D),url('/bg-login.jpg')] 
 bg-cover bg-center flex items-center justify-center">
   
   <div className="flex flex-col md:flex-row w-full max-w-6xl items-center justify-between px-6 gap-10">
@@ -45,14 +45,14 @@ bg-cover bg-center flex items-center justify-center">
       <input type="password" placeholder="Digite sua senha" onChange={(e) => setSenha(e.target.value)} 
       className="w-full text-black border border-gray-400 rounded-full px-4 py-2 outline-none mb-6"/>
 
-      <button onClick={handleLogin} className="w-full text-white bg-[rgb(21,40,47)] 
+      <button onClick={handleLogin} className="w-full text-white bg-sky-700 hover:bg-sky-800 
       font-medium py-2 rounded-lg shadow-md 
       transition-all duration-200 hover:scale-105 hover:shadow-lg active:scale-95">
         Entrar
       </button>
       {error && <p className="text-center text-sm text-red-500">{error}</p>}
 
-      <Link to="/cadastro" className="block mt-4 text-center text-sm text-gray-700 hover:text-gray-900">
+      <Link to="/cadastro" className="block mt-4 text-center text-sm text-sky-700 hover:text-sky-800 transition-colors duration-200">
         CRIAR UMA CONTA
       </Link>
     </div>

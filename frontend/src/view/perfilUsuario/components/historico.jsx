@@ -71,7 +71,7 @@ function Historico() {
         </div>
 
         <span className="text-[#00695c] font-black text-lg sm:text-xl uppercase">
-          {order.status || "FINALIZADO"}
+          {order.status || "confirmado"}
         </span>
       </div>
 

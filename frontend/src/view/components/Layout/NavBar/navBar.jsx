@@ -1,41 +1,46 @@
 import { Link } from "react-router-dom";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, CircleUser } from "lucide-react";
+import { useState } from "react";
+
 import { useAuth } from "../../../../context/AuthContext.jsx";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../../firebaseConfig.js";
 
+import MenuLateral from "../menuLateral/menuLateral.jsx";
+import Hamburger from "../hamburger/hamburger.jsx";
+
 export default function Navbar() {
+  const [open, setOpen] = useState(false);
+
   const { user } = useAuth();
   const handleSignOut = () => {
     signOut(auth)
   } 
 
   return (
-    <div className="w-full bg-[rgb(21,40,47)] px-6 py-4 flex items-center justify-between">
+    <nav className="sticky top-0 left-0 w-full h-4 z-100 bg-sky-950 flex justify-between items-center px-6 py-6 shadow-lg">
       
-      <div className="flex items-center gap-2 px-4">
-        <Link to="/" className="text-white text-3xl cursor-pointer transition-transform duration-200 hover:scale-105">🐬</Link>
+      <div className="absolute -ml-2 left-1/2 -translate-x-1/2 md:static md:translate-x-0 flex items-center">
+        <Link to="/" className="flex items-center gap-3">
+          <img src="/logo4.png" alt="Logo da Rota do Boto" className="h-10 md:h-13 w-auto object-contain"/>
+          <span style={{ fontFamily: "LogoFont" }} className="text-white text-2xl font italic -ml-4">
+            Rota do Boto
+          </span>
+        </Link>
       </div>
 
-      <div className="flex-1 mx-6 max-w-xl relative">
-        <input
-          type="text"
-          placeholder=""
-          className="w-full rounded-full py-2 px-4 pr-10 outline-none"
-        />
-
-      </div>
-
-
-      <div className="flex items-center gap-4 px-4">
+      <div className="flex-1 mx-6 max-w-xl relative" />
+      <div className="hidden md:flex items-center gap-4 px-4">
 
       {user ? (
         //user logado
         <>
             <ShoppingCart className="text-white/55 cursor-pointer" size={22} />
             
-            <Link to="/perfil" className="text-white text-sm">
-              Perfil
+             <Link to="/perfil" className="text-white text-sm">
+            <div className="cursor-pointer hover:text-blue-200 transition-colors flex items-center gap-1">
+             <CircleUser size={28} strokeWidth={1.5} />
+             </div>
             </Link>
 
             <button onClick={handleSignOut}
@@ -55,7 +60,12 @@ export default function Navbar() {
             </Link>
           </>
         )}
+
       </div>
-    </div>
+        <div className="md:hidden">
+          <Hamburger open={open} setOpen={setOpen} />
+        </div>
+          <MenuLateral open={open} setOpen={setOpen} handleSignOut={handleSignOut} />
+    </nav>
   );
-}
+  } 

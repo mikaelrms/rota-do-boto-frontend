@@ -10,7 +10,7 @@ function Manutencao() {
                 Estamos trabalhando para melhorar sua experiência. Volte em breve!
             </p>
 
-            <Link to="/" className="mt-6 bg-[#61EE9D] text-white px-4 py-2 rounded">
+            <Link to="/" className="mt-6 bg-sky-700 hover:bg-sky-800 text-white px-4 py-2 rounded">
             Voltar 
             </Link>
         </div>

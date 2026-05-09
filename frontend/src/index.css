@@ -1,1 +1,8 @@
 @import "tailwindcss";
+
+@font-face {
+  font-family: "LogoFont";
+  src: url("./assets/fonts/BespokeStencil-Extrabold.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
