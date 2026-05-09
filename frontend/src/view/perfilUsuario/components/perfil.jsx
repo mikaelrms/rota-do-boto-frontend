@@ -35,7 +35,6 @@ function Perfil() {
 
   return (
     <section className="w-full min-h-screen bg-gray-100 py-6 md:py-10">
-      
       <div className="max-w-6xl mx-auto px-4 sm:px-6 font-sans">
         
         <h1 className="text-4xl font-bold text-green-800 mb-6">
