@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 
+
 function Pedido() {
   const location = useLocation();
   const viagem = location.state;
@@ -15,6 +16,14 @@ function Pedido() {
 
   const tripId = viagem?.tripId;
   const price = viagem?.preco || 120;
+
+  const origem = viagem?.origem;
+  const destino = viagem?.destino;
+
+  const nome = viagem?.nome;
+  const tempo = viagem?.tempo;
+  const dataPartida = viagem?.data;
+  const imagem = viagem?.imagem;
   const navigate = useNavigate();
 
   const { addToCart } = useCart();
@@ -145,11 +154,16 @@ const handleContinue = async () => {
     addToCart({
       orderId: data.order_id,
       tripId,
-      date: viagem.date,
-      seats: selectedSeats,
-      price,
+      nome,
+      imagem,
       origem,
       destino,
+      tempo,
+      dataPartida,
+      date: viagem.date,
+      seats: selectedSeats,
+      passageiros: viagem.passageiros,
+      price,
     });
 
     navigate("/carrinho");

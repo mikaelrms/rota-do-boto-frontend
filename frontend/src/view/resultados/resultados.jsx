@@ -113,7 +113,13 @@ function Resultados() {
                     onClick={() =>
                     navigate("/pedido", {
                       state: {
-                        ...lancha,
+                        tripId: lancha.tripId,
+                        nome: lancha.nome,
+                        preco: lancha.preco,
+                        tempo: lancha.tempo,
+                        data: lancha.data,
+                        imagem: lancha.imagem,
+
                         date: dadosBusca.date,
                         origem: dadosBusca.origem,
                         destino: dadosBusca.destino,

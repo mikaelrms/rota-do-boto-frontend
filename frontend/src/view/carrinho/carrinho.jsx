@@ -88,7 +88,6 @@ function Carrinho() {
             <>
               {/* DETALHES */}
               <div className="mb-8">
-
                 <h2 className="text-2xl font-semibold mb-6">
                   Resumo da compra
                 </h2>
@@ -96,13 +95,22 @@ function Carrinho() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                   <div>
-                    <p className="text-xs font-bold text-gray-500 uppercase mb-2 ml-1">
-                      Viagem
-                    </p>
+                      <p className="text-xs font-bold text-gray-500 uppercase mb-2 ml-1">
+                        Rota
+                      </p>
 
-                    <div className="bg-gray-100 rounded-xl px-4 py-3">
-                      {cart.tripId}
-                    </div>
+                      <div className="bg-gray-100 rounded-xl px-4 py-3">
+                        {cart.origem} → {cart.destino}
+                      </div>
+                  </div>
+
+                  <div>
+                        <p className="text-xs font-bold text-gray-500 uppercase mb-2 ml-1">
+                          Lancha
+                        </p>
+                        <div className="bg-gray-100 rounded-xl px-4 py-3">
+                          {cart.nome}
+                        </div>
                   </div>
 
                   <div>

@@ -79,7 +79,7 @@ const handleSearch = () => {
   // valida rota disponível
   if (
     origemFormatada !== "manaus" ||
-    destinoFormatada !== "parintins"
+    destinoFormatado !== "parintins"
   ) {
     alert(
       "No momento só existem viagens disponíveis de Manaus para Parintins."
