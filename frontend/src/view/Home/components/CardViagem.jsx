@@ -1,7 +1,9 @@
-export default function CardViagem({ imagem, titulo, descricao, preco }) {
-  
+import { useScrollSearch } from '../../../context/ScrollSearchContext.jsx';
+
+function CardViagem({ imagem, titulo, descricao, preco }) {  
+  const { scrollToSearch } = useScrollSearch();
   return (
-    <div className="relative overflow-hidden w-full h-full group shadow-md">
+    <div onClick={scrollToSearch} className="relative overflow-hidden w-full h-full group shadow-md">
       <img 
         src={imagem} 
         className="absolute inset-0 object-cover w-full h-full transition-transform duration-500 group-hover:scale-110" 
@@ -23,4 +25,4 @@ export default function CardViagem({ imagem, titulo, descricao, preco }) {
       </div>
     </div>
   );
-}
+} export default CardViagem;
