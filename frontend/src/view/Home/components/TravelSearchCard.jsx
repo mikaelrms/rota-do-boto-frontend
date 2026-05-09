@@ -14,11 +14,24 @@ const TravelCard = () => {
   const idaRef = useRef(null);
   const voltaRef = useRef(null);
 
-  // Validação: Impede volta antes da ida
+  // Validação: Permite apenas viagens em maio
   useEffect(() => {
-    if (dataIda && dataVolta && dataVolta < dataIda) {
-      alert("A data de volta não pode ser anterior à data de ida.");
-      setDataVolta('');
+    if (dataIda) {
+      const mesIda = new Date(dataIda).getMonth() + 1;
+
+      if (mesIda !== 5) {
+        alert("As viagens estão disponíveis apenas no mês de maio.");
+        setDataIda('');
+      }
+    }
+
+    if (dataVolta) {
+      const mesVolta = new Date(dataVolta).getMonth() + 1;
+
+      if (mesVolta !== 5) {
+        alert("As viagens estão disponíveis apenas no mês de maio.");
+        setDataVolta('');
+      }
     }
   }, [dataIda, dataVolta]);
 
