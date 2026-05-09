@@ -21,8 +21,7 @@ const TravelCard = () => {
       setDataVolta('');
     }
   }, [dataIda, dataVolta]);
-
-  // Validação: Permite apenas viagens em maio
+  
   useEffect(() => {
     if (dataIda) {
       const mesIda = new Date(dataIda).getMonth() + 1;
