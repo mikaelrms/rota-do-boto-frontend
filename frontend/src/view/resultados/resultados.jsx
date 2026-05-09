@@ -1,12 +1,17 @@
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function Resultados() {
+  const location = useLocation();
+  const dadosBusca = location.state;
+  console.log(dadosBusca);
+
   const navigate = useNavigate();
 
   // informações das lanchas
   const lanchas = [
     { 
-      id: "lancha1", 
+      tripId: "lancha1", 
       nome: "Vovô Nair", 
       preco: 120, 
       tempo: "02H", 
@@ -14,7 +19,7 @@ function Resultados() {
       imagem: "/lancha1.jpg" 
     },
     { 
-      id: "lancha2", 
+      tripId: "lancha2", 
       nome: "Mamãe Chamou", 
       preco: 130, 
       tempo: "01H 30min", 
@@ -22,7 +27,7 @@ function Resultados() {
       imagem: "/lancha2.jpg"
     },
     { 
-      id: "lancha3", 
+      tripId: "lancha3", 
       nome: "Erica Juliana", 
       preco: 110, 
       tempo: "03H", 
@@ -30,7 +35,7 @@ function Resultados() {
       imagem: "/lancha3.jpg"
     },
     { 
-      id: "lancha4", 
+      tripId: "lancha4", 
       nome: "Exp.Ana Carolina", 
       preco: 125, 
       tempo: "02H 15min", 
@@ -50,7 +55,7 @@ function Resultados() {
           
           {lanchas.map((lancha) => (
             <div 
-              key={lancha.id} 
+              key={lancha.tripId} 
               className="bg-white border border-gray-100 rounded-3xl p-4 shadow-sm flex flex-col md:flex-row gap-8 items-center hover:shadow-md transition-shadow"
             >
               {/* Imagem dinâmica vinda do array */}
@@ -105,9 +110,18 @@ function Resultados() {
 
                 <div className="flex justify-end mt-4">
                   <button
-                    onClick={() => navigate("/pedido", { state: lancha })}
-                    className="w-full sm:w-auto bg-sky-700 hover:bg-sky-800 text-white font-bold py-3 px-10 rounded-2xl shadow-md transition-all hover:scale-105 text-base uppercase"
-                  >
+                    onClick={() =>
+                    navigate("/pedido", {
+                      state: {
+                        ...lancha,
+                        date: dadosBusca.date,
+                        origem: dadosBusca.origem,
+                        destino: dadosBusca.destino,
+                        passageiros: dadosBusca.passageiros,
+                      },
+                    })
+                  }
+                    className="w-full sm:w-auto bg-sky-700 hover:bg-sky-800 text-white font-bold py-3 px-10 rounded-2xl shadow-md transition-all hover:scale-105 text-base uppercase">
                     Comprar passagem
                   </button>
                 </div>

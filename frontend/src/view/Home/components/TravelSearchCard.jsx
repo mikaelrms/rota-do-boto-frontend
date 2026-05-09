@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import { MapPin, Repeat, Calendar, Users, Search, ChevronDown } from 'lucide-react';
 
 const TravelCard = () => {
@@ -13,6 +14,8 @@ const TravelCard = () => {
 
   const idaRef = useRef(null);
   const voltaRef = useRef(null);
+
+  const navigate = useNavigate();
 
   // Validação: Impede volta antes da ida
   useEffect(() => {
@@ -53,6 +56,58 @@ const TravelCard = () => {
     const [ano, mes, dia] = dataStr.split('-');
     return `${dia}/${mes}/${ano}`;
   };
+
+const handleSearch = () => {
+
+  if (!origem || !destino || !dataIda) {
+    alert("Preencha origem, destino e data");
+    return;
+  }
+
+  // normaliza texto
+  const origemFormatada = origem
+    .trim()
+    .toLowerCase();
+
+  const destinoFormatado = destino
+    .trim()
+    .toLowerCase();
+
+  // valida rota disponível
+  if (
+    origemFormatada !== "manaus" ||
+    destinoFormatada !== "parintins"
+  ) {
+    alert(
+      "No momento só existem viagens disponíveis de Manaus para Parintins."
+    );
+
+    return;
+  }
+
+  // valida maio de 2026
+  const date = new Date(dataIda);
+
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+
+  if (month !== 5 || year !== 2026) {
+    alert(
+      "No momento só existem viagens disponíveis para Maio de 2026"
+    );
+
+    return;
+  }
+
+  navigate("/resultados", {
+    state: {
+      origem,
+      destino,
+      date: dataIda,
+      passageiros,
+    },
+  });
+};
 
   return (
     /* AJUSTE: Aumentado para max-w-4xl para um tamanho intermediário ideal */
@@ -172,7 +227,9 @@ const TravelCard = () => {
 
         {/* BOTÃO BUSCA */}
         <div className="w-full lg:w-auto flex justify-center lg:pr-2">
-          <button className="bg-sky-700 hover:bg-sky-800 w-full transition-all p-4 ml-4 rounded-full text-white lg:w-auto  shadow-lg active:scale-95 flex items-center justify-center">
+          <button
+          onClick={handleSearch} 
+          className="bg-sky-700 hover:bg-sky-800 w-full transition-all p-4 ml-4 rounded-full text-white lg:w-auto  shadow-lg active:scale-95 flex items-center justify-center">
             <Search size={22} strokeWidth={2.5} />
             <span className="ml-2 md:hidden">Buscar</span>
           </button>

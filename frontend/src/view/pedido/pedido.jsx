@@ -11,6 +11,7 @@ import { db } from "../../firebaseConfig";
 function Pedido() {
   const location = useLocation();
   const viagem = location.state;
+  console.log(viagem);
 
   const tripId = viagem?.tripId;
   const price = viagem?.preco || 120;
@@ -24,7 +25,7 @@ function Pedido() {
   useEffect(() => {
     const fetchSeats = async () => {
       try {
-        const ref = doc(db, "trips", tripId);
+        const ref = doc(db, "trips", tripId, viagem.date, "data");
         const snap = await getDoc(ref);
 
         if (snap.exists()) {
@@ -32,7 +33,11 @@ function Pedido() {
           const seats = data.seats || {};
 
           const occupied = Object.keys(seats)
-            .filter((key) => seats[key] === "occupied")
+            .filter(
+              (key) =>
+                seats[key] === "reserved" ||
+                seats[key] === "paid"
+            )
             .map((key) => Number(key.replace("S", "")));
 
           setOccupiedSeats(occupied);
@@ -113,12 +118,47 @@ function Pedido() {
     ));
   };
 
-    const handleContinue = () => {
-        if (selectedSeats.length === 0) return;
-        addToCart(tripId, selectedSeats, price);
-        
-        navigate("/carrinho");
-    };
+const handleContinue = async () => {
+  if (selectedSeats.length === 0) return;
+
+  try {
+    const response = await fetch("http://127.0.0.1:8000/reserve", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        trip_id: tripId,
+        date: viagem.date,
+        user_id: "user_teste",
+        seats: selectedSeats.map((s) => `S${s}`),
+      }),
+    });
+
+    const data = await response.json();
+
+    if (data.error) {
+      alert(data.error);
+      return;
+    }
+
+    addToCart({
+      orderId: data.order_id,
+      tripId,
+      date: viagem.date,
+      seats: selectedSeats,
+      price,
+      origem,
+      destino,
+    });
+
+    navigate("/carrinho");
+
+  } catch (error) {
+    console.error(error);
+    alert("Erro ao reservar assentos");
+  }
+};
 
   return (
     <section className="w-full min-h-screen bg-gray-100 py-10 px-6">
