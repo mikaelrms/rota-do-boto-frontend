@@ -46,7 +46,7 @@ const PaginaPerfil = () => {
         
         {/* Menu lateral */}
         <div className="w-full md:w-64 flex flex-col gap-3">
-          <aside className="bg-white border border-gray-100 rounded-lg shadow-sm overflow-hidden">
+          <aside className="bg-white border border-gray-100 rounded-lg shadow-sm">
             <ItemMenu 
               icone={User} 
               texto="Meu Perfil" 
@@ -56,7 +56,7 @@ const PaginaPerfil = () => {
             <ItemMenu 
               icone={FileText} 
               texto="Meus Pedidos" 
-              ativo={abaAtiva === '/pedidos'} 
+              ativo={abaAtiva === 'pedidos'} 
               aoClicar={() => setAbaAtiva('pedidos')} 
             />
           </aside>
