@@ -129,12 +129,11 @@ const handleContinue = async () => {
       headers: {
         "Content-Type": "application/json",
       },
-
       body: JSON.stringify({
         trip_id: tripId,
         date: viagem.date,
-        user_id: "temp-user",
-        seats: selectedSeats.map((seat) => `S${seat}`),
+        user_id: "user_teste",
+        seats: selectedSeats.map((s) => `S${s}`),
       }),
     });
 
@@ -146,12 +145,11 @@ const handleContinue = async () => {
     }
 
     addToCart({
+      orderId: data.order_id,
       tripId,
       date: viagem.date,
       seats: selectedSeats,
       price,
-      total: selectedSeats.length * price,
-      orderId: data.order_id,
       origem,
       destino,
     });
