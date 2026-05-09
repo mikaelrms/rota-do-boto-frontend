@@ -168,7 +168,7 @@ function Pedido() {
 
             <div>
               <p className="text-gray-600 text-xs">ORIGEM</p>
-              <p className="text-green-700 text-xl font-semibold">
+              <p className="text-sky-600 text-xl font-semibold">
                 Manaus
               </p>
             </div>
@@ -177,7 +177,7 @@ function Pedido() {
 
             <div>
               <p className="text-gray-600 text-xs">DESTINO</p>
-              <p className="text-green-700 text-xl font-semibold">
+              <p className="text-sky-600 text-xl font-semibold">
                 Parintins
               </p>
             </div>
@@ -187,7 +187,7 @@ function Pedido() {
                 TEMPO DE VIAGEM
               </p>
 
-              <p className="text-green-700 text-xl font-semibold">
+              <p className="text-sky-600 text-xl font-semibold">
                 00H
               </p>
             </div>
@@ -203,7 +203,7 @@ function Pedido() {
                 PARTIDA
               </p>
 
-              <p className="text-green-700 text-lg font-semibold">
+              <p className="text-sky-600 text-lg font-semibold">
                 00/00/0000 - 00H
               </p>
             </div>
@@ -213,7 +213,7 @@ function Pedido() {
                 EMBARCAÇÃO
               </p>
 
-              <p className="text-green-700 text-lg font-semibold">
+              <p className="text-sky-600 text-lg font-semibold">
                 xxxxxxx - Lancha
               </p>
             </div>
@@ -260,7 +260,7 @@ function Pedido() {
             <button
               onClick={handleContinue}
               disabled={selectedSeats.length === 0}
-              className="bg-green-400 hover:brightness-95 transition px-6 py-2 rounded-xl text-sm font-medium shadow-md disabled:bg-gray-300">
+              className="bg-sky-700 hover:brightness-95 transition px-6 py-2 rounded-xl text-white text-sm font-medium shadow-md disabled:bg-gray-300">
               Continuar compra
             </button>
           </div>
