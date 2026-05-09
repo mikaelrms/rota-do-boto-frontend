@@ -1,10 +1,11 @@
 import { useNavigate } from "react-router-dom";
+import { useScrollSearch } from '../../../context/ScrollSearchContext.jsx';
 
 function CardEmAlta({ imagem, nome }) {
-
+  const { scrollToSearch } = useScrollSearch();
   const navigate = useNavigate();
   return (
-    <div className="relative overflow-hidden h-44 sm:h-52 md:h-56 lg:h-48 xl:h-50 w-full group shadow-lg border border-white/10 bg-transparent">
+    <div onClick={scrollToSearch} className="relative overflow-hidden h-44 sm:h-52 md:h-56 lg:h-48 xl:h-50 w-full group shadow-lg border border-white/10 bg-transparent">
       
       <img src={imagem} alt={nome} className="object-cover w-full h-full transition-transform duration-700 ease-out 
       group-hover:scale-105"/>

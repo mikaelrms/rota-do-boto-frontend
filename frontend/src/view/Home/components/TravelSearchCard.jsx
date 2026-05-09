@@ -1,7 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MapPin, Repeat, Calendar, Users, Search, ChevronDown } from 'lucide-react';
+import { useScrollSearch } from '../../../context/ScrollSearchContext.jsx';
 
 const TravelCard = () => {
+  const { searchRef } = useScrollSearch();
+
   const [origem, setOrigem] = useState('');
   const [destino, setDestino] = useState('');
   const [dataIda, setDataIda] = useState('');
@@ -57,7 +60,7 @@ const TravelCard = () => {
 
   return (
     /* AJUSTE: Aumentado para max-w-4xl para um tamanho intermediário ideal */
-    <div className="w-full max-w-4xl mx-auto font-sans px-4">
+    <div ref={searchRef} className="w-full max-w-4xl mx-auto font-sans px-4">
       
       {/* SELETOR DE TIPO CENTRALIZADO */}
       <div className="flex justify-center relative -mb-px z-20">

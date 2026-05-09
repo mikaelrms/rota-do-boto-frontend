@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Layout from './view/components/Layout/layout.jsx'
 import AuthLayout from './view/components/AuthLayout/authLayout.jsx'
 import PrivateRoute from "./routes/PrivateRoute";
+import { ScrollSearchProvider } from './context/ScrollSearchContext.jsx';
 
 import LoginPage from './view/loginPage/loginPage'
 import Home from './view/Home/home.jsx'
@@ -35,7 +36,10 @@ const router = createBrowserRouter ([
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: 
+        <ScrollSearchProvider>
+          <Home />,
+        </ScrollSearchProvider>
       },
       {
         path: "/perfil",
