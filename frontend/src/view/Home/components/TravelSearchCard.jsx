@@ -37,9 +37,31 @@ const TravelCard = () => {
     return `${dia}/${mes}/${ano}`;
   };
 
-  const handleSearch = () => {
+const handleSearch = () => {
+
   if (!origem || !destino || !dataIda) {
     alert("Preencha origem, destino e data");
+    return;
+  }
+
+  // normaliza texto
+  const origemFormatada = origem
+    .trim()
+    .toLowerCase();
+
+  const destinoFormatado = destino
+    .trim()
+    .toLowerCase();
+
+  // valida rota disponível
+  if (
+    origemFormatada !== "manaus" ||
+    destinoFormatada !== "parintins"
+  ) {
+    alert(
+      "No momento só existem viagens disponíveis de Manaus para Parintins."
+    );
+
     return;
   }
 
@@ -50,7 +72,10 @@ const TravelCard = () => {
   const year = date.getFullYear();
 
   if (month !== 5 || year !== 2026) {
-    alert("No momento só existem viagens disponíveis para Maio de 2026");
+    alert(
+      "No momento só existem viagens disponíveis para Maio de 2026"
+    );
+
     return;
   }
 
