@@ -13,44 +13,46 @@ function Carrinho() {
 
 const handleBuy = async () => {
   if (loading) return;
+
   if (!user) {
     alert("Usuário não autenticado");
+    navigate("/login");
     return;
   }
 
   setLoading(true);
 
   try {
-    const response = await fetch("http://127.0.0.1:8000/buy", {
+    const response = await fetch("http://127.0.0.1:8000/confirm", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
+
       body: JSON.stringify({
-        userId: user.uid,
-        tripId: cart.tripId,
-        seats: cart.seats,
-        total: cart.total,
-        origem: "Manaus",
-        destino: "Maués",
+        order_id: cart.orderId,
+        trip_id: cart.tripId,
+        date: cart.date,
       }),
     });
 
     const data = await response.json();
 
-    if (!response.ok) {
-      alert(data.detail || "Erro na compra");
+    if (data.error) {
+      alert(data.error);
       return;
     }
 
     alert("Compra realizada com sucesso!");
 
     clearCart();
+
     navigate("/perfil");
 
   } catch (error) {
     console.error(error);
     alert("Erro ao conectar com servidor");
+
   } finally {
     setLoading(false);
   }

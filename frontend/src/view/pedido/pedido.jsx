@@ -11,6 +11,7 @@ import { db } from "../../firebaseConfig";
 function Pedido() {
   const location = useLocation();
   const viagem = location.state;
+  console.log(viagem);
 
   const tripId = viagem?.tripId;
   const origem = viagem?.origem;
@@ -119,13 +120,49 @@ function Pedido() {
     ));
   };
 
-    const handleContinue = () => {
-        if (selectedSeats.length === 0) return;
+const handleContinue = async () => {
+  if (selectedSeats.length === 0) return;
 
-        addToCart(tripId, selectedSeats, price);
-        
-        navigate("/carrinho");
-    };
+  try {
+    const response = await fetch("http://127.0.0.1:8000/reserve", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+
+      body: JSON.stringify({
+        trip_id: tripId,
+        date: viagem.date,
+        user_id: "temp-user",
+        seats: selectedSeats.map((seat) => `S${seat}`),
+      }),
+    });
+
+    const data = await response.json();
+
+    if (data.error) {
+      alert(data.error);
+      return;
+    }
+
+    addToCart({
+      tripId,
+      date: viagem.date,
+      seats: selectedSeats,
+      price,
+      total: selectedSeats.length * price,
+      orderId: data.order_id,
+      origem,
+      destino,
+    });
+
+    navigate("/carrinho");
+
+  } catch (error) {
+    console.error(error);
+    alert("Erro ao reservar assentos");
+  }
+};
 
   return (
     <section className="w-full min-h-screen bg-gray-100 py-10 px-6">

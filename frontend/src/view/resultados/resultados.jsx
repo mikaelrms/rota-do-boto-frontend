@@ -110,12 +110,13 @@ function Resultados() {
 
                 <div className="flex justify-end mt-4">
                   <button
-                    onClick={() => navigate("/pedido", {
+                    onClick={() =>
+                    navigate("/pedido", {
                       state: {
                         ...lancha,
+                        date: dadosBusca.date,
                         origem: dadosBusca.origem,
                         destino: dadosBusca.destino,
-                        date: dadosBusca.date,
                         passageiros: dadosBusca.passageiros,
                       },
                     })
