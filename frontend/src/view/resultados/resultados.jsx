@@ -1,6 +1,11 @@
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 function Resultados() {
+  const location = useLocation();
+  const dadosBusca = location.state;
+  console.log(dadosBusca);
+
   const navigate = useNavigate();
 
   // informações das lanchas
@@ -105,9 +110,17 @@ function Resultados() {
 
                 <div className="flex justify-end mt-4">
                   <button
-                    onClick={() => navigate("/pedido", { state: lancha })}
-                    className="w-full sm:w-auto bg-sky-700 hover:bg-sky-800 text-white font-bold py-3 px-10 rounded-2xl shadow-md transition-all hover:scale-105 text-base uppercase"
-                  >
+                    onClick={() => navigate("/pedido", {
+                      state: {
+                        ...lancha,
+                        origem: dadosBusca.origem,
+                        destino: dadosBusca.destino,
+                        date: dadosBusca.date,
+                        passageiros: dadosBusca.passageiros,
+                      },
+                    })
+                  }
+                    className="w-full sm:w-auto bg-sky-700 hover:bg-sky-800 text-white font-bold py-3 px-10 rounded-2xl shadow-md transition-all hover:scale-105 text-base uppercase">
                     Comprar passagem
                   </button>
                 </div>

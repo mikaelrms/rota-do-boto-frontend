@@ -26,7 +26,7 @@ function Pedido() {
   useEffect(() => {
     const fetchSeats = async () => {
       try {
-        const ref = doc(db, "trips", tripId);
+        const ref = doc(db, "trips", tripId, viagem.date, "data");
         const snap = await getDoc(ref);
 
         if (snap.exists()) {
@@ -34,7 +34,11 @@ function Pedido() {
           const seats = data.seats || {};
 
           const occupied = Object.keys(seats)
-            .filter((key) => seats[key] === "occupied")
+            .filter(
+              (key) =>
+                seats[key] === "reserved" ||
+                seats[key] === "paid"
+            )
             .map((key) => Number(key.replace("S", "")));
 
           setOccupiedSeats(occupied);
