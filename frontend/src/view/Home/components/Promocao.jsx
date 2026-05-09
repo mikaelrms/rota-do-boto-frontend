@@ -18,10 +18,6 @@ const Promocoes = () => {
 
 const navigate = useNavigate();
 
-const handleClick = (promo) => {
-  navigate("/resultados");
-}
-
   return (
     <section id="promocoes" className="py-20 text-white overflow-hidden bg-transparent">
   
@@ -58,10 +54,7 @@ const handleClick = (promo) => {
           {dadosPromo.map((promo) => (
             <SwiperSlide key={promo.id}>
               
-              <div className={`relative group overflow-hidden h-72 w-full shadow-lg border border-white/10 bg-transparent cursor-pointer rounded-2xl
-              ${promo.id === 2 ? "cursor-pointer" : "cursor-default"}`}
-              onClick={(e) => {e.stopPropagation();
-                if (promo.id === 2) handleClick(promo);}}>
+              <div className="relative group overflow-hidden h-72 w-full shadow-lg border border-white/10 bg-transparent cursor-pointer rounded-2xl">
                 
                 <img 
                   src={promo.img} 

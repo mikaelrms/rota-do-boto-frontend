@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import TravelSearchCard from './components/TravelSearchCard.jsx'
 import CardEmAlta from './components/CardEmAlta.jsx'
 import CardViagem from './components/CardViagem.jsx'
-import ViagemPrincipal from './components/ViagemPrincipal.jsx'
 import Recepcao from './components/Recepcao.jsx';
 import Promocoes from './components/Promocao.jsx';
 
@@ -35,7 +34,6 @@ function Home() {
             key={cidade.id} 
             imagem={cidade.imagem} 
             nome={cidade.nome}
-            id={cidade.id}
           />
           );
           })}
@@ -56,7 +54,7 @@ function Home() {
             imagem="/tefe.jpg"
           />
         </div>
-        <ViagemPrincipal titulo="Manaus para Parintins" preco="R$ 120,00" imagem="/parintins2.jpg" rota="/resultados"/>
+        <CardViagem titulo="Manaus para Parintins" preco="R$ 80,00" imagem="/parintins2.jpg" />  
         <CardViagem titulo="Tabatinga para Manaus" preco="R$ 90,00" imagem="/manaus3.jpg" />
         <CardViagem titulo="Coari para Codajás"  preco="R$ 75,00" imagem="/codajas.jpeg" />
         <CardViagem titulo="Manaus para Coari" preco="R$ 120,00" imagem="/coari.jpeg" />
