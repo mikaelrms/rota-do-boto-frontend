@@ -15,6 +15,7 @@ export function CartProvider({ children }) {
     nome: "",
     origem: "",
     destino: "",
+    expiresAt: null,
   });
 
   const addToCart = (data) => {
@@ -28,6 +29,7 @@ export function CartProvider({ children }) {
       nome: data.nome,
       origem: data.origem,
       destino: data.destino,
+      expiresAt: data.expiresAt,
     });
   };
 
@@ -41,6 +43,7 @@ export function CartProvider({ children }) {
       orderId: "",
       origem: "",
       destino: "",
+      expiresAt: null,
     });
   };
 

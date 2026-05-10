@@ -164,6 +164,7 @@ const handleContinue = async () => {
       seats: selectedSeats,
       passageiros: viagem.passageiros,
       price,
+      expiresAt: data.expires_at,
     });
 
     navigate("/carrinho");
