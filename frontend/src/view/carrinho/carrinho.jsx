@@ -6,9 +6,7 @@ import { useNavigate } from "react-router-dom";
 function Carrinho() {
   const { user } = useAuth();
   const navigate = useNavigate();
-
   const { cart, clearCart } = useCart();
-
   const [loading, setLoading] = useState(false);
 
   const total =
@@ -64,6 +62,37 @@ function Carrinho() {
       setLoading(false);
     }
   };
+
+  const [timeLeft, setTimeLeft] = useState(0);
+  const minutes = Math.floor(timeLeft / 60);
+  const seconds = timeLeft % 60;
+
+  useEffect(() => {
+  if (!cart.expiresAt) return;
+
+  const interval = setInterval(() => {
+    const now = Date.now() / 1000;
+
+    const remaining = Math.max(
+      0,
+      Math.floor(cart.expiresAt - now)
+    );
+
+    setTimeLeft(remaining);
+
+    if (remaining <= 0) {
+      clearInterval(interval);
+
+      alert("Sua reserva expirou");
+
+      clearCart();
+
+      navigate("/");
+    }
+  }, 1000);
+
+  return () => clearInterval(interval);
+}, [cart.expiresAt]);
 
   return (
     <section className="w-full min-h-screen bg-gray-100 py-6 md:py-10">
@@ -147,6 +176,14 @@ function Carrinho() {
               </div>
 
               <hr className="border-gray-300 mb-8" />
+
+              <div className="bg-yellow-100 border border-yellow-300 text-yellow-800 rounded-xl p-4 mb-6 text-center">
+                Sua reserva expira em:
+                <span className="font-bold ml-2">
+                  {String(minutes).padStart(2, "0")}:
+                  {String(seconds).padStart(2, "0")}
+                </span>
+              </div>
 
               {/* TOTAL */}
               <div className="flex justify-between items-center mb-10">
