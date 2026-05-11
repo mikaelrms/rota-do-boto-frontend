@@ -54,7 +54,7 @@ export function CartProvider({ children }) {
       nome: data.nome,
       origem: data.origem,
       destino: data.destino,
-      expiresAt: Number(data.expiresAt), // 🔥 FIX
+      expiresAt: Number(data.expiresAt),
       duration: data.duration,
     });
   };

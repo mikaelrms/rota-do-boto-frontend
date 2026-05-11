@@ -87,7 +87,7 @@ useEffect(() => {
 
 }, [tripId, viagem.date]);
 
-  const rows = 10; // 10 linhas
+  const rows = 10;
 
   const handleSeatClick = (seatNumber) => {
     if (occupiedSeats.includes(seatNumber)) return;

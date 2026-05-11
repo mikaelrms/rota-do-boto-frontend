@@ -17,7 +17,6 @@ function Carrinho() {
   const minutes = Math.floor(timeLeft / 60000);
   const seconds = Math.floor((timeLeft % 60000) / 1000);
 
-  // 🔥 FIX: inicialização correta
   useEffect(() => {
     if (!cart.expiresAt) return;
 
@@ -25,7 +24,6 @@ function Carrinho() {
     setTimeLeft(diff);
   }, [cart.expiresAt]);
 
-  // 🔥 FIX: timer confiável
   useEffect(() => {
     if (!cart.expiresAt) return;
 
