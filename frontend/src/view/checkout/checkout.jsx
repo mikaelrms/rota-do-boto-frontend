@@ -43,7 +43,6 @@ function Checkout() {
         return;
       }
 
-      alert("Pagamento aprovado!");
       clearCart();
       navigate("/success");
     } catch (error) {

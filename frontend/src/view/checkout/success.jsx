@@ -9,7 +9,7 @@ function Success() {
     setShow(true);
 
     const timer = setTimeout(() => {
-      navigate("/perfil");
+      navigate("/");
     }, 2500);
 
     return () => clearTimeout(timer);
