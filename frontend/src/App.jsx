@@ -14,6 +14,7 @@ import Resultados from './view/resultados/resultados.jsx'
 import Pedido from './view/pedido/pedido.jsx'
 import Carrinho from './view/carrinho/carrinho.jsx' 
 import Manutencao from './view/manutencao/manutencao.jsx'
+import Checkout from './view/checkout/checkout.jsx'
 
 
 
@@ -28,6 +29,10 @@ const router = createBrowserRouter ([
       {
         path: "/cadastro",
         element: <CadastroForm />,
+      },
+      {
+        path: "/checkout",
+        element: <Checkout />
       },
     ],
   },

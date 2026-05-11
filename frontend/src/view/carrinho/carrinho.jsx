@@ -12,56 +12,6 @@ function Carrinho() {
   const total =
     (cart.price || 0) * (cart.seats?.length || 0);
 
-  const handleBuy = async () => {
-    if (loading) return;
-
-    if (!user) {
-      alert("Usuário não autenticado");
-      navigate("/login");
-      return;
-    }
-
-    setLoading(true);
-
-    try {
-      const response = await fetch(
-        "https://rota-do-boto-backend.onrender.com/confirm",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-
-          body: JSON.stringify({
-            order_id: cart.orderId,
-            trip_id: cart.tripId,
-            date: cart.date,
-          }),
-        }
-      );
-
-      const data = await response.json();
-
-      if (data.error) {
-        alert(data.error);
-        return;
-      }
-
-      alert("Compra realizada com sucesso!");
-
-      clearCart();
-
-      navigate("/perfil");
-
-    } catch (error) {
-      console.error(error);
-
-      alert("Erro ao conectar com servidor");
-
-    } finally {
-      setLoading(false);
-    }
-  };
   const [timeLeft, setTimeLeft] = useState(
         (cart.duration || 0) * 1000
       );
@@ -208,7 +158,7 @@ useEffect(() => {
                 </button>
 
                 <button
-                  onClick={handleBuy}
+                  onClick={() => navigate("/checkout")}
                   disabled={loading}
                   className="w-full sm:w-60 bg-[#61EE9D] text-black font-semibold py-3 rounded-xl shadow-md hover:brightness-95 transition-all disabled:opacity-50"
                 >
