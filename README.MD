@@ -179,7 +179,7 @@ cd rota-do-boto-frontend/frontend
 ```
 
 ```bash
-npm i firebase
+npm i firebase swiper
 npm run dev
 ```
 
