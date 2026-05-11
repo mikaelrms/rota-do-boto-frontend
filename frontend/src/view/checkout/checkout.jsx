@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
+import { QRCodeCanvas } from "qrcode.react";
 
 function Checkout() {
   const { cart, clearCart } = useCart();
@@ -44,7 +45,7 @@ function Checkout() {
 
       alert("Pagamento aprovado!");
       clearCart();
-      navigate("/perfil");
+      navigate("/success");
     } catch (error) {
       console.error(error);
       alert("Erro ao processar pagamento");
@@ -52,6 +53,9 @@ function Checkout() {
       setLoading(false);
     }
   };
+
+  // PIX fake só pra UI (não interfere no backend)
+  const fakePix = `00020126${cart.orderId || "0000"}BR.PIX.ROTA.DO.BOTO`;
 
   return (
     <section className="min-h-screen bg-gradient-to-b from-[#eef6fb] to-[#f7f7f7] flex items-center justify-center p-6">
@@ -64,13 +68,12 @@ function Checkout() {
           <h1 className="text-2xl font-bold">Rota do Boto</h1>
         </div>
 
-        {/* BODY */}
         <div className="p-6 space-y-6">
 
           {/* TOTAL */}
           <div className="text-center">
             <p className="text-gray-500 text-sm">Total a pagar</p>
-            <h2 className="text-4xl font-extrabold text-gray-900 tracking-tight">
+            <h2 className="text-4xl font-extrabold text-gray-900">
               R$ {total.toFixed(2)}
             </h2>
           </div>
@@ -92,14 +95,14 @@ function Checkout() {
             </div>
           </div>
 
-          {/* PIX */}
-          <div className="border rounded-2xl p-4 bg-white shadow-sm">
+          {/* PIX CARD MELHORADO */}
+          <div className="bg-white border rounded-2xl p-4 shadow-sm space-y-4">
 
-            <div className="flex items-center gap-3 mb-3">
+            <div className="flex items-center gap-3">
               <img
                 src="https://logodownload.org/wp-content/uploads/2020/02/pix-bc-logo.png"
-                alt="PIX"
                 className="w-10"
+                alt="PIX"
               />
 
               <div>
@@ -110,16 +113,22 @@ function Checkout() {
               </div>
             </div>
 
-            <div className="bg-gray-100 rounded-xl p-3 text-xs break-all text-gray-600">
-              00020126360014BR.GOV.BCB.PIX0114+5592999999995204000053039865405
+            {/* QR CODE (VISUAL SOMENTE) */}
+            <div className="flex justify-center bg-gray-50 p-4 rounded-xl border">
+              <QRCodeCanvas value={fakePix} size={140} />
             </div>
 
-            <p className="text-[11px] text-gray-400 mt-2 text-center">
-              Copie o código acima para simular o pagamento
+            {/* COPY CODE */}
+            <div className="bg-gray-100 rounded-xl p-3 text-[11px] break-all text-gray-600">
+              {fakePix}
+            </div>
+
+            <p className="text-[11px] text-center text-gray-400">
+              Escaneie ou copie o código PIX para simular o pagamento
             </p>
           </div>
 
-          {/* BOTÃO */}
+          {/* BOTÃO (NÃO ALTERADO) */}
           <button
             onClick={handleFakePayment}
             disabled={loading}
