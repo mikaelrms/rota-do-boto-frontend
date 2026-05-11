@@ -22,6 +22,7 @@ export function CartProvider({ children }) {
       origem: "",
       destino: "",
       expiresAt: null,
+      duration: 0,
     };
   });
 
@@ -44,6 +45,7 @@ export function CartProvider({ children }) {
       origem: data.origem,
       destino: data.destino,
       expiresAt: data.expiresAt,
+      duration: data.duration,
     });
   };
 
@@ -61,6 +63,7 @@ export function CartProvider({ children }) {
       origem: "",
       destino: "",
       expiresAt: null,
+      duration: 0,
     });
   };
 

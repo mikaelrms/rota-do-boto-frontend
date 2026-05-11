@@ -1,13 +1,15 @@
 import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
-
-import { ShoppingCart, CircleUser } from "lucide-react";
+import { useCart } from "../../../../context/CartContext.jsx";
 import { useAuth } from "../../../../context/AuthContext.jsx";
+import { ShoppingCart, CircleUser } from "lucide-react";
+
 
 function MobileMenu({ open, setOpen, handleSignOut }) {
   const { user } = useAuth();
-
+  const { cart } = useCart();
+  
   useEffect(() => {
     if (open) {
       document.body.classList.add("overflow-hidden");
@@ -48,10 +50,33 @@ function MobileMenu({ open, setOpen, handleSignOut }) {
                   <span>Perfil</span>
                 </Link>
 
-                <div className="flex items-center gap-2 cursor-pointer hover:text-white/70 transition">
-                  <ShoppingCart size={20} />
-                  <span>Carrinho</span>
-                </div>
+                <Link
+                  to="/carrinho"
+                  onClick={() => setOpen(false)}
+                  className="flex items-center justify-between hover:text-white/70 transition">
+                  <div className="flex items-center gap-2">
+                    <ShoppingCart size={20} />
+                    <span>Carrinho</span>
+                  </div>
+
+                  {cart?.seats?.length > 0 && (
+                    <div
+                      className="
+                        min-w-5
+                        h-5
+                        px-1
+                        rounded-full
+                        bg-red-500
+                        text-white
+                        text-[10px]
+                        font-bold
+                        flex
+                        items-center
+                        justify-center">
+                      {cart.seats.length}
+                    </div>
+                  )}
+                </Link>
               </div>
 
               <div className="border-t border-white/20" />

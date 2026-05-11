@@ -53,8 +53,7 @@ export default function Navbar() {
             {/* CARRINHO */}
             <button
               onClick={() => navigate("/carrinho")}
-              className="relative"
-            >
+              className="relative">
               <ShoppingCart
                 className="text-white/55 cursor-pointer hover:text-white transition-colors"
                 size={22}
@@ -76,9 +75,7 @@ export default function Navbar() {
                     font-bold
                     flex
                     items-center
-                    justify-center
-                  "
-                >
+                    justify-center">
                   {cart.seats.length}
                 </div>
               )}

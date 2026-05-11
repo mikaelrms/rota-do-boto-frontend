@@ -169,6 +169,14 @@ const handleContinue = async () => {
 
     const data = await response.json();
 
+    console.log(data);
+    console.log("expires_at:", data.expires_at);
+    console.log("now:", Date.now());
+    console.log(
+      "difference minutes:",
+      (data.expires_at - Date.now()) / 1000 / 60
+    );
+
     if (data.error) {
       alert(data.error);
       return;
@@ -187,7 +195,7 @@ const handleContinue = async () => {
       seats: selectedSeats,
       passageiros: viagem.passageiros,
       price,
-      expiresAt: Date.now() + (data.duration * 1000),
+      duration: data.duration,
     });
 
     navigate("/carrinho");
