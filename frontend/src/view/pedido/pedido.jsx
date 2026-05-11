@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
-
+import { useAuth } from "../../context/AuthContext";
 import { useLocation } from "react-router-dom";
 
 import { doc, getDoc } from "firebase/firestore";
@@ -10,13 +10,11 @@ import { db } from "../../firebaseConfig";
 
 
 function Pedido() {
+  const { user } = useAuth();
   const location = useLocation();
   const viagem = location.state;
-  console.log(viagem);
-
   const tripId = viagem?.tripId;
   const price = viagem?.preco || 120;
-
   const origem = viagem?.origem;
   const destino = viagem?.destino;
 
@@ -26,6 +24,7 @@ function Pedido() {
   const imagem = viagem?.imagem;
   const navigate = useNavigate();
 
+  const { cart } = useCart();
   const { addToCart } = useCart();
 
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -162,20 +161,18 @@ const handleContinue = async () => {
       body: JSON.stringify({
         trip_id: tripId,
         date: viagem.date,
-        user_id: "user_teste",
+        user_id: user.uid,
+
         seats: selectedSeats.map((s) => `S${s}`),
+
+        price,
+        origem,
+        destino,
+        nome,
       }),
     });
 
     const data = await response.json();
-
-    console.log(data);
-    console.log("expires_at:", data.expires_at);
-    console.log("now:", Date.now());
-    console.log(
-      "difference minutes:",
-      (data.expires_at - Date.now()) / 1000 / 60
-    );
 
     if (data.error) {
       alert(data.error);
@@ -296,11 +293,11 @@ const handleContinue = async () => {
 
             <div>
               <p className="text-gray-600 text-xs mb-1">
-                EMBARCAÇÃO
+                LANCHA
               </p>
 
               <p className="text-sky-600 text-lg font-semibold">
-                xxxxxxx - Lancha
+                {cart.nome} - Lancha
               </p>
             </div>
 
