@@ -1,6 +1,6 @@
-import React from 'react';
+const ItemMenu = ({ icone, texto, ativo, aoClicar }) => {
+  const Icon = icone;
 
-const ItemMenu = ({ icone: Icone, texto, ativo, aoClicar }) => {
   return (
     <button 
       onClick={aoClicar}
@@ -10,7 +10,7 @@ const ItemMenu = ({ icone: Icone, texto, ativo, aoClicar }) => {
           : 'text-gray-500 hover:bg-gray-50'
       }`}
     >
-      <Icone size={20} />
+      {Icon && <Icon size={20} />}
       <span className="uppercase text-[11px] tracking-widest">{texto}</span>
     </button>
   );

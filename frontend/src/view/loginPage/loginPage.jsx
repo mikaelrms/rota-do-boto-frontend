@@ -15,9 +15,9 @@ const [error, setError] = useState("");
 
   const handleLogin = async () => {
     try {
-      const user = await signInWithEmailAndPassword(auth, email, senha);
+      await signInWithEmailAndPassword(auth, email, senha);
       navigate("/");
-    } catch (error) {
+    } catch {
       setError("Credenciais inválidas. Tente novamente.");
     }
   };

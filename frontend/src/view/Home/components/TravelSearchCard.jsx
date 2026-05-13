@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { MapPin, Repeat, Calendar, Users, Search, ChevronDown } from 'lucide-react';
+import { Calendar, ChevronDown, MapPin, Repeat, Search, Users } from 'lucide-react';
 
 const TravelCard = () => {
   const [origem, setOrigem] = useState('');
@@ -14,21 +14,11 @@ const TravelCard = () => {
 
   const idaRef = useRef(null);
   const voltaRef = useRef(null);
-
   const navigate = useNavigate();
 
-  // Validação: Impede volta antes da ida
-  useEffect(() => {
-    if (dataIda && dataVolta && dataVolta < dataIda) {
-      alert("A data de volta não pode ser anterior à data de ida.");
-      setDataVolta('');
-    }
-  }, [dataIda, dataVolta]);
-
   const handleInvert = () => {
-    const temp = origem;
     setOrigem(destino);
-    setDestino(temp);
+    setDestino(origem);
   };
 
   const formatarData = (dataStr) => {
@@ -37,66 +27,62 @@ const TravelCard = () => {
     return `${dia}/${mes}/${ano}`;
   };
 
-const handleSearch = () => {
+  const handleDataIdaChange = (value) => {
+    setDataIda(value);
 
-  if (!origem || !destino || !dataIda) {
-    alert("Preencha origem, destino e data");
-    return;
-  }
+    if (dataVolta && dataVolta < value) {
+      alert("A data de volta nao pode ser anterior a data de ida.");
+      setDataVolta('');
+    }
+  };
 
-  // normaliza texto
-  const origemFormatada = origem
-    .trim()
-    .toLowerCase();
+  const handleDataVoltaChange = (value) => {
+    if (dataIda && value < dataIda) {
+      alert("A data de volta nao pode ser anterior a data de ida.");
+      return;
+    }
 
-  const destinoFormatado = destino
-    .trim()
-    .toLowerCase();
+    setDataVolta(value);
+  };
 
-  // valida rota disponível
-  if (
-    origemFormatada !== "manaus" ||
-    destinoFormatada !== "parintins"
-  ) {
-    alert(
-      "No momento só existem viagens disponíveis de Manaus para Parintins."
-    );
+  const handleSearch = () => {
+    if (!origem || !destino || !dataIda) {
+      alert("Preencha origem, destino e data");
+      return;
+    }
 
-    return;
-  }
+    const origemFormatada = origem.trim().toLowerCase();
+    const destinoFormatado = destino.trim().toLowerCase();
 
-  // valida maio de 2026
-  const date = new Date(dataIda);
+    if (origemFormatada !== "manaus" || destinoFormatado !== "parintins") {
+      alert("No momento so existem viagens disponiveis de Manaus para Parintins.");
+      return;
+    }
 
-  const month = date.getMonth() + 1;
-  const year = date.getFullYear();
+    const date = new Date(dataIda);
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
 
-  if (month !== 5 || year !== 2026) {
-    alert(
-      "No momento só existem viagens disponíveis para Maio de 2026"
-    );
+    if (month !== 5 || year !== 2026) {
+      alert("No momento so existem viagens disponiveis para Maio de 2026");
+      return;
+    }
 
-    return;
-  }
-
-  navigate("/resultados", {
-    state: {
-      origem,
-      destino,
-      date: dataIda,
-      passageiros,
-    },
-  });
-};
+    navigate("/resultados", {
+      state: {
+        origem,
+        destino,
+        date: dataIda,
+        passageiros,
+      },
+    });
+  };
 
   return (
-    /* AJUSTE: Aumentado para max-w-4xl para um tamanho intermediário ideal */
     <div className="w-full max-w-4xl mx-auto font-sans px-4">
-      
-      {/* SELETOR DE TIPO CENTRALIZADO */}
       <div className="flex justify-center relative -mb-px z-20">
         <div className="relative">
-          <button 
+          <button
             onClick={() => setShowMenuTipo(!showMenuTipo)}
             className="bg-sky-700 text-white px-8 py-2.5 flex items-center gap-2 text-xs font-bold tracking-wider uppercase rounded-t-xl shadow-sm min-w-[180px] justify-center transition-all hover:bg-sky-800"
           >
@@ -112,15 +98,11 @@ const handleSearch = () => {
         </div>
       </div>
 
-      {/* BARRA PRINCIPAL - Py-3 para um pouco mais de altura */}
       <div className="bg-white shadow-xl flex flex-col lg:flex-row items-center justify-between px-6 py-8 lg:py-3 rounded-2xl lg:rounded-full border border-gray-100 gap-8 lg:gap-0">
-        
-        {/* BLOCO ORIGEM / INVERSÃO / DESTINO */}
         <div className="flex flex-col lg:flex-row items-center lg:flex-[2.2] w-full gap-6 lg:gap-0">
-          
           <div className="flex items-center gap-3 group w-full -mb-2 rounded-lg border border-black-300 p-3 md:border-none flex-1 justify-center md:mb-0 lg:justify-start lg:pl-8">
             <MapPin size={20} className="text-gray-400 group-hover:text-sky-600" />
-            <input 
+            <input
               type="text"
               placeholder="Origem"
               value={origem}
@@ -129,8 +111,8 @@ const handleSearch = () => {
             />
           </div>
 
-          <button 
-            onClick={handleInvert} 
+          <button
+            onClick={handleInvert}
             className="-mb-2 active:scale-90 transition-all rotate-90 lg:rotate-0 lg:mb-0 lg:-ml-6 lg:mr-2"
           >
             <Repeat size={20} className="text-gray-400 group-hover:text-sky-600 group-hover:rotate-180 transition-transform duration-500" />
@@ -138,7 +120,7 @@ const handleSearch = () => {
 
           <div className="flex items-center gap-3 group w-full rounded-lg border border-black-300 -mb-2 p-3 md:border-none lg:flex-1 justify-center lg:mb-0 lg:justify-start">
             <MapPin size={20} className="text-gray-400 group-hover:text-sky-600" />
-            <input 
+            <input
               type="text"
               placeholder="Destino"
               value={destino}
@@ -150,12 +132,11 @@ const handleSearch = () => {
 
         <div className="hidden lg:block w-[1px] h-8 bg-gray-200 mx-2"></div>
 
-        {/* BLOCO DATAS E PASSAGEIROS - ALINHAMENTO CENTRALIZADO */}
         <div className={`flex flex-col sm:flex-row items-center gap-8 lg:gap-4 w-full lg:w-auto ${tipoViagem === 'ida-volta' ? 'lg:flex-[2.8]' : 'lg:flex-[1.8]'} justify-around`}>
-          
-          {/* Ida */}
-          <div className="relative flex items-center justify-center -mb-2 gap-3 group w-full rounded-lg border border-black-300 cursor-pointer h-13 lg:mb-0 md:justify-start md:w-auto md:rounded-none md:border-none"
-          onClick={() => idaRef.current.showPicker()}>
+          <div
+            className="relative flex items-center justify-center -mb-2 gap-3 group w-full rounded-lg border border-black-300 cursor-pointer h-13 lg:mb-0 md:justify-start md:w-auto md:rounded-none md:border-none"
+            onClick={() => idaRef.current?.showPicker()}
+          >
             <Calendar size={20} className="text-gray-400 group-hover:text-sky-600" />
             <div className="flex flex-col items-center">
               <span className={`font-medium text-base transition-all duration-300 group-hover:text-sky-600 ${dataIda ? 'leading-none text-gray-800' : 'text-gray-600'}`}>
@@ -165,13 +146,14 @@ const handleSearch = () => {
                 Ida
               </span>
             </div>
-            <input ref={idaRef} type="date" className="absolute inset-0 opacity-0" min={new Date().toISOString().split('T')[0]} onChange={(e) => setDataIda(e.target.value)} />
+            <input ref={idaRef} type="date" className="absolute inset-0 opacity-0" min={new Date().toISOString().split('T')[0]} onChange={(e) => handleDataIdaChange(e.target.value)} />
           </div>
 
-          {/* Volta */}
           {tipoViagem === 'ida-volta' && (
-            <div className="relative flex items-center justify-center -mb-4 gap-3 group w-full rounded-lg border border-black-300 p-2 cursor-pointer h-13 lg:mb-0 md:justify-start md:w-auto md:rounded-none md:border-none md:p-0"
-            onClick={() => voltaRef.current.showPicker()}>
+            <div
+              className="relative flex items-center justify-center -mb-4 gap-3 group w-full rounded-lg border border-black-300 p-2 cursor-pointer h-13 lg:mb-0 md:justify-start md:w-auto md:rounded-none md:border-none md:p-0"
+              onClick={() => voltaRef.current?.showPicker()}
+            >
               <Calendar size={20} className="text-gray-400 group-hover:text-sky-600" />
               <div className="flex flex-col items-center">
                 <span className={`font-medium text-base transition-all duration-300 group-hover:text-sky-600 ${dataVolta ? 'leading-none text-gray-800' : 'text-gray-600'}`}>
@@ -181,11 +163,10 @@ const handleSearch = () => {
                   Volta
                 </span>
               </div>
-              <input ref={voltaRef} type="date" className="absolute inset-0 opacity-0" min={dataIda || new Date().toISOString().split('T')[0]} onChange={(e) => setDataVolta(e.target.value)} />
+              <input ref={voltaRef} type="date" className="absolute inset-0 opacity-0" min={dataIda || new Date().toISOString().split('T')[0]} onChange={(e) => handleDataVoltaChange(e.target.value)} />
             </div>
           )}
 
-          {/* Passageiros */}
           <div className="flex items-center gap-3 p-2 -mb-4 h-12 lg:mb-0 group">
             <Users size={20} className="text-gray-400 group-hover:text-sky-600" />
             <div className="flex flex-col items-center">
@@ -205,16 +186,15 @@ const handleSearch = () => {
           </div>
         </div>
 
-        {/* BOTÃO BUSCA */}
         <div className="w-full lg:w-auto flex justify-center lg:pr-2">
           <button
-          onClick={handleSearch} 
-          className="bg-sky-700 hover:bg-sky-800 w-full transition-all p-4 ml-4 rounded-full text-white lg:w-auto  shadow-lg active:scale-95 flex items-center justify-center">
+            onClick={handleSearch}
+            className="bg-sky-700 hover:bg-sky-800 w-full transition-all p-4 ml-4 rounded-full text-white lg:w-auto shadow-lg active:scale-95 flex items-center justify-center"
+          >
             <Search size={22} strokeWidth={2.5} />
             <span className="ml-2 md:hidden">Buscar</span>
           </button>
         </div>
-
       </div>
     </div>
   );

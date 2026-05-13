@@ -1,12 +1,14 @@
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 function Resultados() {
   const location = useLocation();
   const dadosBusca = location.state;
-  console.log(dadosBusca);
 
   const navigate = useNavigate();
+
+  if (!dadosBusca) {
+    return <Navigate to="/" replace />;
+  }
 
   // informações das lanchas
   const lanchas = [
@@ -15,7 +17,7 @@ function Resultados() {
       nome: "Vovô Nair", 
       preco: 120, 
       tempo: "02H", 
-      data: "15/05/2024 - 09H",
+      data: "15/05/2026 - 09H",
       imagem: "/lancha1.jpg" 
     },
     { 
@@ -23,7 +25,7 @@ function Resultados() {
       nome: "Mamãe Chamou", 
       preco: 130, 
       tempo: "01H 30min", 
-      data: "15/05/2024 - 10H",
+      data: "15/05/2026 - 10H",
       imagem: "/lancha2.jpg"
     },
     { 
@@ -31,7 +33,7 @@ function Resultados() {
       nome: "Erica Juliana", 
       preco: 110, 
       tempo: "03H", 
-      data: "16/05/2024 - 08H",
+      data: "16/05/2026 - 08H",
       imagem: "/lancha3.jpg"
     },
     { 
@@ -39,7 +41,7 @@ function Resultados() {
       nome: "Exp.Ana Carolina", 
       preco: 125, 
       tempo: "02H 15min", 
-      data: "16/05/2024 - 14H",
+      data: "16/05/2026 - 14H",
       imagem: "/lancha4.jpg"
     },
   ];

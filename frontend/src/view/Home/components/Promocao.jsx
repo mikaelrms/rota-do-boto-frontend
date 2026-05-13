@@ -2,6 +2,7 @@ import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { useNavigate } from "react-router-dom";
+import { defaultSearchState } from "../defaultSearchState";
 
 // Import dos estilos do Swiper
 import 'swiper/css';
@@ -18,8 +19,8 @@ const Promocoes = () => {
 
 const navigate = useNavigate();
 
-const handleClick = (promo) => {
-  navigate("/resultados");
+const handleClick = () => {
+  navigate("/resultados", { state: defaultSearchState });
 }
 
   return (
@@ -61,7 +62,7 @@ const handleClick = (promo) => {
               <div className={`relative group overflow-hidden h-72 w-full shadow-lg border border-white/10 bg-transparent cursor-pointer rounded-2xl
               ${promo.id === 2 ? "cursor-pointer" : "cursor-default"}`}
               onClick={(e) => {e.stopPropagation();
-                if (promo.id === 2) handleClick(promo);}}>
+                if (promo.id === 2) handleClick();}}>
                 
                 <img 
                   src={promo.img} 

@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 
-function ViagemPrincipal( { titulo, descricao, preco, imagem, rota } ) {
+function ViagemPrincipal( { titulo, descricao, preco, imagem, rota, state } ) {
     return (
         <div className="relative overflow-hidden w-full h-full group shadow-md">
-        <Link to={rota}>
+        <Link to={rota} state={state}>
             
       <img 
         src={imagem} 

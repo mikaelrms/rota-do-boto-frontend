@@ -51,11 +51,19 @@ const router = createBrowserRouter ([
       },
       {
         path: "/pedido",
-        element: <Pedido />
+        element: (
+          <PrivateRoute>
+            <Pedido />
+          </PrivateRoute>
+        )
       },
       {
         path: "/carrinho",
-        element: <Carrinho />
+        element: (
+          <PrivateRoute>
+            <Carrinho />
+          </PrivateRoute>
+        )
       },
     ],
   },

@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState } from "react";
 
 const CartContext = createContext();
@@ -11,6 +12,7 @@ export function CartProvider({ children }) {
     price: 0,
     total: 0,
     orderId: "",
+    nome: "",
     origem: "",
     destino: "",
   });
@@ -23,6 +25,7 @@ export function CartProvider({ children }) {
       price: data.price,
       total: data.total,
       orderId: data.orderId,
+      nome: data.nome,
       origem: data.origem,
       destino: data.destino,
     });
@@ -36,6 +39,7 @@ export function CartProvider({ children }) {
       price: 0,
       total: 0,
       orderId: "",
+      nome: "",
       origem: "",
       destino: "",
     });
