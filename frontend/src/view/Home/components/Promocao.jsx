@@ -2,7 +2,11 @@ import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 import { defaultSearchState } from "../defaultSearchState";
+=======
+import { useScrollSearch } from '../../../context/ScrollSearchContext.jsx';
+>>>>>>> fluxo-compra
 
 // Import dos estilos do Swiper
 import 'swiper/css';
@@ -10,6 +14,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 const Promocoes = () => {
+  const { scrollToSearch } = useScrollSearch();
   const dadosPromo = [
     { id: 1, destino: "Itapiranga para Urucará", img: "/urucara.jpg", desconto: "20% OFF", de: "R$ 350", por: "R$ 280" },
     { id: 2, destino: "Manaus para Parintins", img: "/parintins2.jpg", desconto: "15% OFF", de: "R$ 180", por: "R$ 153" },
@@ -19,12 +24,15 @@ const Promocoes = () => {
 
 const navigate = useNavigate();
 
+<<<<<<< HEAD
 const handleClick = () => {
   navigate("/resultados", { state: defaultSearchState });
 }
 
+=======
+>>>>>>> fluxo-compra
   return (
-    <section id="promocoes" className="py-20 text-white overflow-hidden bg-transparent">
+    <section onClick={scrollToSearch} id="promocoes" className="py-20 text-white overflow-hidden bg-transparent">
   
       <style dangerouslySetInnerHTML={{ __html: `
         #promocoes .swiper-button-next, 
@@ -59,10 +67,14 @@ const handleClick = () => {
           {dadosPromo.map((promo) => (
             <SwiperSlide key={promo.id}>
               
+<<<<<<< HEAD
               <div className={`relative group overflow-hidden h-72 w-full shadow-lg border border-white/10 bg-transparent cursor-pointer rounded-2xl
               ${promo.id === 2 ? "cursor-pointer" : "cursor-default"}`}
               onClick={(e) => {e.stopPropagation();
                 if (promo.id === 2) handleClick();}}>
+=======
+              <div className="relative group overflow-hidden h-72 w-full shadow-lg border border-white/10 bg-transparent cursor-pointer rounded-2xl">
+>>>>>>> fluxo-compra
                 
                 <img 
                   src={promo.img} 

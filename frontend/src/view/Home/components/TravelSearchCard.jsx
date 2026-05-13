@@ -1,8 +1,15 @@
 import React, { useRef, useState } from 'react';
 import { useNavigate } from "react-router-dom";
+<<<<<<< HEAD
 import { Calendar, ChevronDown, MapPin, Repeat, Search, Users } from 'lucide-react';
+=======
+import { MapPin, Repeat, Calendar, Users, Search, ChevronDown } from 'lucide-react';
+import { useScrollSearch } from '../../../context/ScrollSearchContext.jsx';
+>>>>>>> fluxo-compra
 
 const TravelCard = () => {
+  const { searchRef } = useScrollSearch();
+
   const [origem, setOrigem] = useState('');
   const [destino, setDestino] = useState('');
   const [dataIda, setDataIda] = useState('');
@@ -16,6 +23,37 @@ const TravelCard = () => {
   const voltaRef = useRef(null);
   const navigate = useNavigate();
 
+<<<<<<< HEAD
+=======
+  // Validação: Impede volta antes da ida
+  useEffect(() => {
+    if (dataIda && dataVolta && dataVolta < dataIda) {
+      alert("A data de volta não pode ser anterior à data de ida.");
+      setDataVolta('');
+    }
+  }, [dataIda, dataVolta]);
+  
+  useEffect(() => {
+    if (dataIda) {
+      const mesIda = new Date(dataIda).getMonth() + 1;
+
+      if (mesIda !== 5) {
+        alert("As viagens estão disponíveis apenas no mês de maio.");
+        setDataIda('');
+      }
+    }
+
+    if (dataVolta) {
+      const mesVolta = new Date(dataVolta).getMonth() + 1;
+
+      if (mesVolta !== 5) {
+        alert("As viagens estão disponíveis apenas no mês de maio.");
+        setDataVolta('');
+      }
+    }
+  }, [dataIda, dataVolta]);
+
+>>>>>>> fluxo-compra
   const handleInvert = () => {
     setOrigem(destino);
     setDestino(origem);
@@ -45,11 +83,22 @@ const TravelCard = () => {
     setDataVolta(value);
   };
 
+<<<<<<< HEAD
   const handleSearch = () => {
     if (!origem || !destino || !dataIda) {
       alert("Preencha origem, destino e data");
       return;
     }
+=======
+  // valida rota disponível
+  if (
+    origemFormatada !== "manaus" ||
+    destinoFormatado !== "parintins"
+  ) {
+    alert(
+      "No momento só existem viagens disponíveis de Manaus para Parintins."
+    );
+>>>>>>> fluxo-compra
 
     const origemFormatada = origem.trim().toLowerCase();
     const destinoFormatado = destino.trim().toLowerCase();
@@ -79,7 +128,14 @@ const TravelCard = () => {
   };
 
   return (
+<<<<<<< HEAD
     <div className="w-full max-w-4xl mx-auto font-sans px-4">
+=======
+    /* AJUSTE: Aumentado para max-w-4xl para um tamanho intermediário ideal */
+    <div ref={searchRef} className="w-full max-w-4xl mx-auto font-sans px-4">
+      
+      {/* SELETOR DE TIPO CENTRALIZADO */}
+>>>>>>> fluxo-compra
       <div className="flex justify-center relative -mb-px z-20">
         <div className="relative">
           <button

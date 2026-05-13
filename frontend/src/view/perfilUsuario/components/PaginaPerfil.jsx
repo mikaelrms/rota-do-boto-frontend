@@ -39,6 +39,7 @@ const PaginaPerfil = () => {
     <div className="min-h-screen bg-gray-50 p-4 md:p-12 flex items-start justify-start w-full">
       <div className="w-full max-w-6xl flex flex-col md:flex-row gap-8 ml-0">
         <div className="w-full md:w-64 flex flex-col gap-3">
+<<<<<<< HEAD
           <aside className="bg-white border border-gray-100 rounded-lg shadow-sm overflow-hidden">
             <ItemMenu
               icone={User}
@@ -51,6 +52,20 @@ const PaginaPerfil = () => {
               texto="Meus Pedidos"
               ativo={abaAtiva === "pedidos"}
               aoClicar={() => setAbaAtiva("pedidos")}
+=======
+          <aside className="bg-white border border-gray-100 rounded-lg shadow-sm">
+            <ItemMenu 
+              icone={User} 
+              texto="Meu Perfil" 
+              ativo={abaAtiva === 'perfil'} 
+              aoClicar={() => setAbaAtiva('perfil')} 
+            />
+            <ItemMenu 
+              icone={FileText} 
+              texto="Meus Pedidos" 
+              ativo={abaAtiva === 'pedidos'} 
+              aoClicar={() => setAbaAtiva('pedidos')} 
+>>>>>>> fluxo-compra
             />
           </aside>
 

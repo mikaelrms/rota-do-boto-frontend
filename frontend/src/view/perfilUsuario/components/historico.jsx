@@ -1,40 +1,32 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
 
-import { db } from "../../../firebaseConfig";
-import { collection, query, where, getDocs } from "firebase/firestore";
-
 function Historico() {
   const { user } = useAuth();
 
   const [orders, setOrders] = useState([]);
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      if (!user) return;
+useEffect(() => {
+  const fetchOrders = async () => {
+    if (!user) return;
 
-      try {
-        const q = query(
-          collection(db, "orders"),
-          where("userId", "==", user.uid)
-        );
+    try {
+      const response = await fetch(
+        `https://rota-do-boto-backend.onrender.com/orders/${user.uid}`
+      );
 
-        const snapshot = await getDocs(q);
+      const data = await response.json();
 
-        const pedidos = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        }));
+      setOrders(data);
 
-        setOrders(pedidos);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-      } catch (error) {
-        console.error("Erro ao buscar pedidos:", error);
-      }
-    };
+  fetchOrders();
 
-    fetchOrders();
-  }, [user]);
+}, [user]);
 
   return (
     <div className="w-full min-h-screen bg-gray-100 p-4 sm:p-6">
@@ -45,15 +37,15 @@ function Historico() {
         </h1>
 
        {orders.length === 0 ? (
-  <p className="text-center text-gray-500">
-    Você ainda não fez nenhum pedido
-  </p>
-) : (
-  orders.map((order) => (
-    <div
-      key={order.id}
-      className="bg-white border border-gray-200 rounded-2xl p-4 sm:p-6 shadow-sm"
-    >
+      <p className="text-center text-gray-500">
+        Você ainda não fez nenhum pedido
+      </p>
+    ) : (
+      orders.map((order) => (
+        <div
+          key={order.id}
+          className="bg-white border border-gray-200 rounded-2xl p-4 sm:p-6 shadow-sm"
+        >
 
       {/* HEADER */}
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-4 border-b pb-4">
@@ -115,7 +107,7 @@ function Historico() {
             Valor
           </p>
           <p className="font-extrabold text-[#00796b] text-sm sm:text-base">
-            R$ {order.total}
+            R$ {((order.price || 0) * (order.seats?.length || 0)).toFixed(2)} 
           </p>
         </div>
 
@@ -124,7 +116,7 @@ function Historico() {
             Embarcação
           </p>
           <p className="font-extrabold text-[#00796b] text-sm sm:text-base">
-            {order.tripId}
+            {order.trip_id}
           </p>
         </div>
 

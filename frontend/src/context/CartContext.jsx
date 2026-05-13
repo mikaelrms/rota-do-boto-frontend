@@ -1,10 +1,27 @@
+<<<<<<< HEAD
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState } from "react";
+=======
+import { createContext, useContext, useState, useEffect } from "react";
+>>>>>>> fluxo-compra
 
 const CartContext = createContext();
 
-export function CartProvider({ children }) {
+const defaultCart = {
+  tripId: "",
+  date: "",
+  seats: [],
+  price: 0,
+  total: 0,
+  orderId: "",
+  nome: "",
+  origem: "",
+  destino: "",
+  expiresAt: null,
+  duration: 0,
+};
 
+<<<<<<< HEAD
   const [cart, setCart] = useState({
     tripId: "",
     date: "",
@@ -15,7 +32,34 @@ export function CartProvider({ children }) {
     nome: "",
     origem: "",
     destino: "",
+=======
+const isExpired = (expiresAt) => {
+  return !expiresAt || Number(expiresAt) < Date.now();
+};
+
+export function CartProvider({ children }) {
+  const [cart, setCart] = useState(() => {
+    const savedCart = localStorage.getItem("cart");
+
+    if (!savedCart) return defaultCart;
+
+    const parsed = JSON.parse(savedCart);
+
+    if (isExpired(parsed.expiresAt)) {
+      localStorage.removeItem("cart");
+      return defaultCart;
+    }
+
+    return {
+      ...parsed,
+      expiresAt: Number(parsed.expiresAt),
+    };
+>>>>>>> fluxo-compra
   });
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
 
   const addToCart = (data) => {
     setCart({
@@ -28,10 +72,13 @@ export function CartProvider({ children }) {
       nome: data.nome,
       origem: data.origem,
       destino: data.destino,
+      expiresAt: Number(data.expiresAt),
+      duration: data.duration,
     });
   };
 
   const clearCart = () => {
+<<<<<<< HEAD
     setCart({
       tripId: "",
       date: "",
@@ -43,16 +90,14 @@ export function CartProvider({ children }) {
       origem: "",
       destino: "",
     });
+=======
+    localStorage.removeItem("cart");
+    setCart(defaultCart);
+>>>>>>> fluxo-compra
   };
 
   return (
-    <CartContext.Provider
-      value={{
-        cart,
-        addToCart,
-        clearCart,
-      }}
-    >
+    <CartContext.Provider value={{ cart, addToCart, clearCart }}>
       {children}
     </CartContext.Provider>
   );

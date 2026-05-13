@@ -35,7 +35,7 @@ export default function Footer() {
             <div>
                 <h2 className="font-bold text-xl mb-4">Precisa de Ajuda?</h2>
                 <div className="grid space-y-2 text-sm">
-                    <Link to="manutencao" className="cursor-pointer hover:underline">Superte</Link>
+                    <Link to="manutencao" className="cursor-pointer hover:underline">Suporte</Link>
                     <Link to="manutencao" className="cursor-pointer hover:underline">Cancelar pedido</Link>
                 </div>
             </div>

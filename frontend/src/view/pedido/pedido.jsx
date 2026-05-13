@@ -1,18 +1,33 @@
-import { useEffect, useState } from "react";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
+import { useAuth } from "../../context/AuthContext";
+import { useLocation } from "react-router-dom";
+
 import { doc, getDoc } from "firebase/firestore";
 
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
 import { db } from "../../firebaseConfig";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
 function Pedido() {
   const { user } = useAuth();
   const location = useLocation();
   const viagem = location.state;
+  const tripId = viagem?.tripId;
+  const price = viagem?.preco || 120;
+  const origem = viagem?.origem;
+  const destino = viagem?.destino;
+
+  const nome = viagem?.nome;
+  const tempo = viagem?.tempo;
+  const dataPartida = viagem?.data;
+  const imagem = viagem?.imagem;
   const navigate = useNavigate();
+
+  const { cart } = useCart();
   const { addToCart } = useCart();
 
   const [selectedSeats, setSelectedSeats] = useState([]);
@@ -29,34 +44,64 @@ function Pedido() {
   const price = viagem?.preco || 120;
   const date = viagem?.date;
 
-  useEffect(() => {
-    const fetchSeats = async () => {
-      try {
-        const ref = doc(db, "trips", tripId, date, "data");
-        const snap = await getDoc(ref);
+  const [loading, setLoading] = useState(false);
 
-        if (!snap.exists()) return;
-
-        const seats = snap.data().seats || {};
+useEffect(() => {
+  const fetchSeats = async () => {
+    try {
+      const ref = doc( db, "trips", tripId, viagem.date, "data" );
+      
+      const snap = await getDoc(ref);
+      if (snap.exists()) {
+        const data = snap.data();
+        const seats = data.seats || {};
         const occupied = Object.keys(seats)
-          .filter((key) => seats[key] === "reserved" || seats[key] === "paid")
-          .map((key) => Number(key.replace("S", "")));
+          .filter(
+            (key) =>
+              seats[key] === "reserved" ||
+              seats[key] === "paid"
+          )
+          .map((key) =>
+            Number(key.replace("S", ""))
+          );
 
         setOccupiedSeats(occupied);
-        setSelectedSeats((prev) => prev.filter((seat) => !occupied.includes(seat)));
-      } catch (error) {
-        console.error("Erro ao buscar assentos:", error);
+
+        // remove assentos ocupados
+        setSelectedSeats((prev) =>
+          prev.filter(
+            (seat) => !occupied.includes(seat)
+          )
+        );
+
+      } else {
+        console.log("Trip não encontrada");
       }
-    };
 
-    if (tripId && date) {
-      fetchSeats();
+    } catch (error) {
+      console.error(
+        "Erro ao buscar assentos:",
+        error
+      );
     }
-  }, [tripId, date]);
+  };
 
-  if (!viagem) {
-    return <Navigate to="/" replace />;
+  if (tripId) {
+    // busca inicial
+    fetchSeats();
+
+    // polling -> deixa a pagina mais responsiva, atualizando os assentos a cada 3 segundos 
+    const interval = setInterval(() => {
+      fetchSeats();
+    }, 3000);
+
+    // cleanup
+    return () => clearInterval(interval);
   }
+
+}, [tripId, viagem.date]);
+
+  const rows = 10;
 
   const handleSeatClick = (seatNumber) => {
     if (occupiedSeats.includes(seatNumber)) return;
@@ -121,15 +166,49 @@ function Pedido() {
     ));
   };
 
-  const handleContinue = async () => {
-    if (selectedSeats.length === 0 || loading) return;
+const handleContinue = async () => {
+  if (selectedSeats.length === 0 || loading) return;
 
-    if (!user) {
-      navigate("/login");
+  setLoading(true);
+
+  try {
+    const response = await fetch("http://127.0.0.1:8000/reserve", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        trip_id: tripId,
+        date: viagem.date,
+        user_id: user.uid,
+        seats: selectedSeats.map((s) => `S${s}`),
+        price,
+        origem,
+        destino,
+        nome,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (data.error) {
+      alert(data.error);
+      setLoading(false);
       return;
     }
 
-    setLoading(true);
+    addToCart({
+      orderId: data.order_id,
+      tripId,
+      nome,
+      imagem,
+      origem,
+      destino,
+      date: viagem.date,
+      seats: selectedSeats.map((s) => `S${s}`),
+      expiresAt: Number(data.expires_at),
+      price,
+    });
 
     try {
       const response = await fetch(`${API_URL}/reserve`, {
@@ -149,32 +228,13 @@ function Pedido() {
         }),
       });
 
-      const data = await response.json();
-
-      if (data.error) {
-        alert(data.error);
-        return;
-      }
-
-      addToCart({
-        orderId: data.order_id,
-        tripId,
-        nome,
-        date,
-        seats: selectedSeats.map((s) => `S${s}`),
-        price,
-        origem,
-        destino,
-      });
-
-      navigate("/carrinho");
-    } catch (error) {
-      console.error(error);
-      alert("Erro ao reservar assentos");
-    } finally {
-      setLoading(false);
-    }
-  };
+  } catch (error) {
+    console.error(error);
+    alert("Erro ao reservar assentos");
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <section className="w-full min-h-screen bg-gray-100 py-10 px-6">
@@ -202,47 +262,83 @@ function Pedido() {
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl shadow p-6 mt-6 w-full max-w-md">
-          <h2 className="text-2xl font-bold mb-6">Resumo do pedido</h2>
+        {/* RESUMO */}
+        <div className="bg-[#f3f3f3] rounded-[30px] shadow-md p-6 mt-6 w-full max-w-md border border-gray-300">
+          <h2 className="text-2xl font-bold mb-6">
+            Resumo do pedido
+          </h2>
+          <hr className="border-gray-400 mb-6" />
+          {/* Origem / Destino / Tempo */}
+          <div className="flex justify-between items-start mb-8">
 
-          <div className="flex justify-between mb-4">
             <div>
-              <p className="text-xs text-gray-500">ORIGEM</p>
-              <p className="text-green-700 font-semibold">{origem}</p>
+              <p className="text-gray-600 text-xs">ORIGEM</p>
+              <p className="text-sky-600 text-xl font-semibold">
+                Manaus
+              </p>
             </div>
-            <div>-</div>
+
+            <div className="text-xl mt-2">→</div>
+
             <div>
-              <p className="text-xs text-gray-500">DESTINO</p>
-              <p className="text-green-700 font-semibold">{destino}</p>
+              <p className="text-gray-600 text-xs">DESTINO</p>
+              <p className="text-sky-600 text-xl font-semibold">
+                Parintins
+              </p>
+            </div>
+
+            <div className="text-right">
+              <p className="text-gray-600 text-xs">
+                TEMPO DE VIAGEM
+              </p>
+
+              <p className="text-sky-600 text-xl font-semibold">
+                00H
+              </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 mb-4">
+          {/* Informações da viagem */}
+          <div className="flex justify-between items-start mb-6">
+
+          <div className="flex gap-3">
+
             <div>
-              <p className="text-xs text-gray-500">LANCHA</p>
-              <p className="text-green-700 font-semibold">{nome}</p>
+              <p className="text-gray-600 text-xs mb-1">
+                PARTIDA
+              </p>
+
+              <p className="text-sky-600 text-lg font-semibold">
+                00/00/0000 - 00H
+              </p>
             </div>
+
             <div>
-              <p className="text-xs text-gray-500">PARTIDA</p>
-              <p className="text-green-700 font-semibold">{dataPartida}</p>
+              <p className="text-gray-600 text-xs mb-1">
+                LANCHA
+              </p>
+
+              <p className="text-sky-600 text-lg font-semibold">
+                {cart.nome} - Lancha
+              </p>
             </div>
-            <div>
-              <p className="text-xs text-gray-500">DURACAO</p>
-              <p className="text-green-700 font-semibold">{tempo}</p>
-            </div>
-            <div>
-              <p className="text-xs text-gray-500">PASSAGEIROS</p>
-              <p className="text-green-700 font-semibold">{passageiros}</p>
+
+          </div>
+
+            <div className="flex items-center gap-1 text-gray-500 text-lg mb-1">
+              ☆ 0,0 (0)
             </div>
           </div>
 
-          <hr className="my-4" />
+          <hr className="border-gray-400 mb-6" />
 
-          <div className="flex justify-between mb-2">
+          {/* Quantidade */}
+          <div className="flex justify-between mb-2 text-xl">
             <span>Passagens</span>
             <span>{selectedSeats.length}</span>
           </div>
 
+<<<<<<< HEAD
           <div className="flex justify-between mb-2">
             <span>Assentos</span>
             <span>{selectedSeats.length > 0 ? selectedSeats.join(", ") : "-"}</span>
@@ -260,6 +356,39 @@ function Pedido() {
           >
             {loading ? "Reservando..." : "Continuar compra"}
           </button>
+=======
+          {/* Assentos */}
+          <div className="flex justify-between mb-6 text-xl">
+            <span>Assento</span>
+
+            <span>
+              {selectedSeats.length > 0
+                ? selectedSeats.join(", ")
+                : "0"}
+            </span>
+          </div>
+
+          {/* Subtotal */}
+          <div className="flex justify-between items-center mb-8">
+            <span className="text-xl font-medium">
+              Subtotal
+            </span>
+
+            <span className="text-xl text-gray-700">
+              R$ {(selectedSeats.length * price).toFixed(2)}
+            </span>
+          </div>
+
+          {/* Botão */}
+          <div className="flex justify-center">
+            <button
+              onClick={handleContinue}
+              disabled={selectedSeats.length === 0 || loading}
+              className="bg-sky-700 hover:brightness-95 transition px-6 py-2 rounded-xl text-white text-sm font-medium shadow-md disabled:bg-gray-300">
+              {loading ? "Reservando..." : "Continuar compra"}
+            </button>
+          </div>
+>>>>>>> fluxo-compra
         </div>
       </div>
     </section>
