@@ -1,6 +1,4 @@
-import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
 import { auth } from "../../../firebaseConfig";
@@ -22,7 +20,6 @@ const PaginaPerfil = () => {
     signOut(auth)
   } 
 
-  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       if (!user) return;

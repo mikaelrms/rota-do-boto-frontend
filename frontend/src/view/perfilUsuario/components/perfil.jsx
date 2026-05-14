@@ -1,8 +1,4 @@
-import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-
-import { auth } from "../../../firebaseConfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
 
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
@@ -11,10 +7,8 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../../firebaseConfig";
 
 function Perfil() {
-  const { user } = useAwuth();
+  const { user } = useAuth();
   const [dados, setDados] = useState(null);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
   const fetchData = async () => {
