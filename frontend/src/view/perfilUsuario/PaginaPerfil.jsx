@@ -3,11 +3,11 @@ import { signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { FileText, User } from "lucide-react";
 
-import { useAuth } from "../../../context/AuthContext";
-import { auth, db } from "../../../firebaseConfig";
-import Historico from "./historico";
-import ItemMenu from "./ItemMenu";
-import LabelField from "./LabelField";
+import { useAuth } from "../../context/AuthContext";
+import { auth, db } from "../../firebaseConfig.js";
+import Historico from "./components/historico.jsx";
+import ItemMenu from "./components/ItemMenu.jsx";
+import LabelField from "./components/LabelField.jsx";
 
 const PaginaPerfil = () => {
   const { user } = useAuth();

@@ -9,7 +9,7 @@ import { ScrollSearchProvider } from './context/ScrollSearchContext.jsx';
 import LoginPage from './view/loginPage/loginPage'
 import Home from './view/Home/home.jsx'
 import CadastroForm from './view/cadastro/cadastro.jsx'
-import RenderPerfil from './view/perfilUsuario/RenderPerfil.jsx';
+import PaginaPerfil from './view/perfilUsuario/PaginaPerfil.jsx';
 import Resultados from './view/resultados/resultados.jsx'
 import Pedido from './view/pedido/pedido.jsx'
 import Carrinho from './view/carrinho/carrinho.jsx' 
@@ -55,7 +55,7 @@ const router = createBrowserRouter ([
         path: "/perfil",
         element: (
           <PrivateRoute>
-            <RenderPerfil />
+            <PaginaPerfil />
           </PrivateRoute>
         )
       },
