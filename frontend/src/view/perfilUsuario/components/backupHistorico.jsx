@@ -1,12 +1,13 @@
-import { Ticket } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../../context/AuthContext";
+
 import { db } from "../../../firebaseConfig";
 import { collection, query, where, getDocs } from "firebase/firestore";
 
 function Historico() {
+  const { user } = useAuth();
+
   const [orders, setOrders] = useState([]);
-  const {user} = useAuth();
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -36,14 +37,17 @@ function Historico() {
   }, [user]);
 
   return (
-    <div className="text-center py-20 animate-in slide-in-from-bottom-4 duration-500">
+    <div className="w-full min-h-screen bg-gray-100 p-4 sm:p-6">
       <div className="max-w-6xl mx-auto">
 
+        <h1 className="text-4xl font-bold text-center text-green-800 mb-6">
+          Pedidos
+        </h1>
+
        {orders.length === 0 ? (
-        <>
-          <Ticket size={48} className="mx-auto text-gray-200 mb-4" />
-          <h2 className="text-gray-400 italic">Você ainda não possui pedidos realizados.</h2>
-        </>
+  <p className="text-center text-gray-500">
+    Você ainda não fez nenhum pedido
+  </p>
 ) : (
   orders.map((order) => (
     <div
@@ -148,4 +152,6 @@ function Historico() {
     </div>
   )
 }
-export default Historico;
+
+export default Historico
+

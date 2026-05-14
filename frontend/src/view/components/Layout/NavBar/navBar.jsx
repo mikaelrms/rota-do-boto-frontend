@@ -3,7 +3,8 @@ import { ShoppingCart, CircleUser } from "lucide-react";
 import { useState } from "react";
 
 import { useAuth } from "../../../../context/AuthContext.jsx";
-import { useCart } from "../../../../context/CartContext.jsx";
+import { useCart } from "../../../../context/useCart.js";
+
 
 import { signOut } from "firebase/auth";
 import { auth } from "../../../../firebaseConfig.js";

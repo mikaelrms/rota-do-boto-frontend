@@ -3,7 +3,7 @@ import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
 
 import { useAuth } from "../../context/AuthContext";
-import { useCart } from "../../context/CartContext";
+import { useCart } from "../../context/useCart.js";
 import { db } from "../../firebaseConfig";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";

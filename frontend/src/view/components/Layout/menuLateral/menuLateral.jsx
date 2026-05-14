@@ -1,7 +1,7 @@
 import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
-import { useCart } from "../../../../context/CartContext.jsx";
+import { useCart } from "../../../../context/useCart.js";
 import { useAuth } from "../../../../context/AuthContext.jsx";
 import { ShoppingCart, CircleUser } from "lucide-react";
 
