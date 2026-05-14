@@ -7,7 +7,7 @@ function Success() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate("/");
+      navigate("/perfil", { state: { aba: "pedidos" } }); 
     }, 2500);
 
     return () => clearTimeout(timer);

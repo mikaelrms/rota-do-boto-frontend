@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { FileText, User } from "lucide-react";
+import { useLocation } from "react-router-dom";
 
 import { useAuth } from "../../context/AuthContext";
 import { auth, db } from "../../firebaseConfig.js";
@@ -9,10 +10,15 @@ import Historico from "./components/historico.jsx";
 import ItemMenu from "./components/ItemMenu.jsx";
 import LabelField from "./components/LabelField.jsx";
 
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+
 const PaginaPerfil = () => {
   const { user } = useAuth();
+  const location = useLocation();
   const [dados, setDados] = useState(null);
-  const [abaAtiva, setAbaAtiva] = useState("perfil");
+  const [abaAtiva, setAbaAtiva] = useState(location.state?.aba || "perfil");
+  const [orders, setOrders] = useState([]);
+  const [loadingOrders, setLoadingOrders] = useState(true);
 
   const handleSignOut = () => {
     signOut(auth);
@@ -21,16 +27,29 @@ const PaginaPerfil = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (!user) return;
-
       const docRef = doc(db, "users", user.uid);
       const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) setDados(docSnap.data());
+    };
+    fetchData();
+  }, [user]);
 
-      if (docSnap.exists()) {
-        setDados(docSnap.data());
+  useEffect(() => {
+    if (!user) return;
+
+    const fetchOrders = async () => {
+      try {
+        const response = await fetch(`${API_URL}/orders/${user.uid}`);
+        const data = await response.json();
+        if (!data.error) setOrders(data);
+      } catch (error) {
+        console.error("Erro ao buscar pedidos:", error);
+      } finally {
+        setLoadingOrders(false);
       }
     };
 
-    fetchData();
+    fetchOrders();
   }, [user]);
 
   if (!dados) return <p>Carregando...</p>;
@@ -40,17 +59,17 @@ const PaginaPerfil = () => {
       <div className="w-full max-w-6xl flex flex-col md:flex-row gap-8 ml-0">
         <div className="w-full md:w-64 flex flex-col gap-3">
           <aside className="bg-white border border-gray-100 rounded-lg shadow-sm">
-            <ItemMenu 
-              icone={User} 
-              texto="Meu Perfil" 
-              ativo={abaAtiva === 'perfil'} 
-              aoClicar={() => setAbaAtiva('perfil')} 
+            <ItemMenu
+              icone={User}
+              texto="Meu Perfil"
+              ativo={abaAtiva === "perfil"}
+              aoClicar={() => setAbaAtiva("perfil")}
             />
-            <ItemMenu 
-              icone={FileText} 
-              texto="Meus Pedidos" 
-              ativo={abaAtiva === 'pedidos'} 
-              aoClicar={() => setAbaAtiva('pedidos')} 
+            <ItemMenu
+              icone={FileText}
+              texto="Meus Pedidos"
+              ativo={abaAtiva === "pedidos"}
+              aoClicar={() => setAbaAtiva("pedidos")}
             />
           </aside>
 
@@ -70,7 +89,6 @@ const PaginaPerfil = () => {
                   <h1 className="text-sky-700 text-2xl font-bold mb-4 text-left">Dados pessoais</h1>
                   <hr className="border-gray-200" />
                 </div>
-
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                   <LabelField rotulo="Nome" campo={dados?.nome} />
                   <LabelField rotulo="CPF" campo={dados?.cpf} />
@@ -84,7 +102,6 @@ const PaginaPerfil = () => {
                   <h1 className="text-sky-700 text-2xl font-bold mb-4 text-left">Endereco</h1>
                   <hr className="border-gray-200" />
                 </div>
-
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                   <LabelField rotulo="CEP" campo={dados?.cep} />
                   <LabelField rotulo="Municipio" campo={dados?.municipio} />
@@ -96,7 +113,9 @@ const PaginaPerfil = () => {
             </div>
           )}
 
-          {abaAtiva === "pedidos" && <Historico />}
+          {abaAtiva === "pedidos" && (
+            <Historico orders={orders} loading={loadingOrders} />
+          )}
         </main>
       </div>
     </div>

@@ -152,6 +152,8 @@ function Pedido() {
           origem,
           destino,
           nome,
+          tempo,
+          dataPartida, 
         }),
       });
 
