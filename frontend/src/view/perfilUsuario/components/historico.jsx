@@ -17,8 +17,8 @@ function Historico({ orders, loading }) {
     <div className="py-8 px-4 sm:px-8 animate-in slide-in-from-bottom-4 duration-500">
       {orders.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-24 gap-3">
-          <div className="w-16 h-16 rounded-2xl bg-sky-50 flex items-center justify-center">
-            <Ticket size={32} className="text-sky-300" />
+          <div className="w-16 h-16 rounded-2xl flex items-center justify-center">
+            <Ticket size={32} className="text-gray-300" />
           </div>
           <p className="text-gray-400 text-sm">Você ainda não possui pedidos realizados.</p>
         </div>
