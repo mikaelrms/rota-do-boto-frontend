@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Diagnóstico — Rota do Boto</title>
+  <style>body{font-family:Arial,Helvetica,sans-serif;padding:20px;line-height:1.4}h1{color:#0b5; margin-bottom:0}h2{margin-top:1em;color:#078}code{background:#f4f4f4;padding:2px 6px;border-radius:4px}</style>
+</head>
+<body>
+  <h1>Diagnóstico — Frontend & Backend</h1>
+  <p>Resumo rápido das áreas mais prováveis de falha e ações recomendadas. Verifique cada item no ambiente de desenvolvimento.</p>
+
+  <h2>Frontend (frontend/rota-do-boto/frontend)</h2>
+  <ul>
+    <li>index.html carrega <code>/src/main.jsx</code> e tem <code>&lt;div id="root"&gt;</code> — OK; se o app não renderizar, verificar console do navegador e build do Vite.</li>
+    <li><strong>Firebase:</strong> <code>src/firebaseConfig.js</code> contém a configuração (apiKey etc.). Chave pública do cliente é normal, mas: restrinja origens no console Firebase e prefira usar variáveis de ambiente para <code>VITE_*</code> (p.ex. VITE_FIREBASE_PROJECT ou VITE_API_URL).</li>
+    <li><strong>API URL:</strong> código usa <code>import.meta.env.VITE_API_URL || "http://127.0.0.1:8000"</code>. Se a UI não conseguir falar com a API, criar um arquivo <code>.env</code> na raiz do frontend com <code>VITE_API_URL=http://seu-backend:8000</code> e reiniciar o dev server (vite).</li>
+    <li>Verificar compatibilidade de versões (react 19, react-router-dom v7 e uso de <code>createBrowserRouter</code>) — atualizar dependências se houver erro de API.</li>
+    <li>Tailwind/vite plugin está nas dependências. Se o CSS faltar, checar <code>tailwind.config.js</code> e se o plugin foi registrado no <code>vite.config.js</code>.</li>
+    <li>Possíveis erros runtime: imports com caminho incorreto (extensões .jsx vs .js), erro em AuthContext (onAuthStateChanged) se o objeto <code>auth</code> não for inicializado; ver console do navegador e network.</li>
+  </ul>
+
+  <h2>Backend (backend/rota-do-boto-backend/backend)</h2>
+  <ul>
+    <li>Projeto em Python + Firestore (FastAPI). Requisitos em <code>requirements.txt</code>.</li>
+    <li><strong>Import paths:</strong> <code>src/main.py</code> faz <code>from src import firebase_service as fb</code> e importa <code>tasks.expiration_worker</code>. Se uvicorn for executado com o cwd incorreto, imports relativos podem falhar. Recomendações:
+      <ul>
+        <li>Iniciar o servidor com o módulo do package: <code>cd backend/rota-do-boto-backend/backend && uvicorn src.main:app --reload --host 0.0.0.0 --port 8000</code> ou ajustar PYTHONPATH para incluir a raiz onde <code>src</code> é pacote.</li>
+        <li>Alternativa: usar imports relativos dentro de <code>src</code> (ex: <code>from . import firebase_service</code>) caso rode como package (<code>python -m src.main</code>).</li>
+      </ul>
+    </li>
+    <li><strong>Credenciais Firebase:</strong> <code>src/firebase_config.py</code> usa <code>os.getenv('FIREBASE_KEY_PATH','firebasekey.json')</code>. Problemas comuns:
+      <ul>
+        <li>Arquivo <code>firebasekey.json</code> não encontrado quando o cwd não é o diretório esperado — usar caminho absoluto via variável de ambiente <code>FIREBASE_KEY_PATH</code>.</li>
+      </ul>
+    </li>
+    <li><strong>Worker de expiração:</strong> roda em thread (tasks/expiration_worker.py) e chama <code>src.firebase_service.cancel_order</code>. Se o serviço iniciar e sair ou travar, checar logs no terminal (prints/tracebacks) e permissões de leitura/escrita no Firestore.</li>
+    <li>Possíveis erros de runtime no backend:
+      <ul>
+        <li>Erros de import (ModuleNotFoundError) por execução a partir de pasta errada.</li>
+        <li>Erro ao carregar credenciais do Firebase (ValueError/IOError) se a JSON estiver inválida ou o caminho incorreto.</li>
+        <li>Problemas de versão das bibliotecas Google/FireStore — instalar requisitos em venv limpo e testar.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h2>Problemas de integração comuns</h2>
+  <ol>
+    <li>Frontend não encontra a API — verificar <code>VITE_API_URL</code>, CORS (backend permite "*"), e se o backend está de fato escutando na porta esperada.</li>
+    <li>Auth não funciona — verificar console do browser para erros do SDK Firebase; confirmar que <code>auth</code> foi inicializado antes do <code>onAuthStateChanged</code>.</li>
+    <li>Tasks em background morrem na inicialização do processo (erros silenciosos) — rodar backend em terminal e observar logs.</li>
+  </ol>
+
+  <h2>Passos sugeridos para validar localmente</h2>
+  <ol>
+    <li>Backend: criar e ativar venv, instalar dependências: <code>python -m venv .venv &amp;&amp; .\.venv\Scripts\Activate.ps1</code> (Windows PowerShell) e <code>pip install -r requirements.txt</code>.</li>
+    <li>Definir variável de ambiente do Firebase: <code>setx FIREBASE_KEY_PATH "C:\caminho\para\firebasekey.json"</code> ou export temporário no shell.</li>
+    <li>Iniciar backend (a partir de backend/.../backend): <code>uvicorn src.main:app --reload --host 0.0.0.0 --port 8000</code>.</li>
+    <li>Frontend: criar <code>.env</code> na raiz do frontend com <code>VITE_API_URL=http://127.0.0.1:8000</code>, instalar dependências <code>npm install</code> e iniciar <code>npm run dev</code>. Ver console do Vite para erros.</li>
+    <li>Verificar network tab e console no navegador para endpoints <code>/trips/.../seats</code>, <code>/reserve</code>, <code>/confirm</code>, <code>/cancel</code> e autenticação Firebase.</li>
+  </ol>
+
+  <h2>Recomendações rápidas</h2>
+  <ul>
+    <li>Usar variáveis <code>VITE_*</code> para URLs/flags do frontend.</li>
+    <li>Setar <code>FIREBASE_KEY_PATH</code> absoluto e executar backend a partir do diretório correto.</li>
+    <li>Preferir imports relativos dentro do package Python (<code>from .</code>) se o projeto for sempre executado como pacote.</li>
+    <li>Revisar permissões do Firestore e regras de segurança para produção.</li>
+  </ul>
+
+  <hr>
+  <p>Se desejar, rodar checagens automáticas (npm run build/test, iniciar uvicorn) e eu analiso os logs de erro resultantes — posso ajudar a aplicar correções específicas.</p>
+</body>
+</html>

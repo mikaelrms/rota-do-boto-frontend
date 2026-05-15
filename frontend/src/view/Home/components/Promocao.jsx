@@ -71,7 +71,7 @@ const Promocoes = () => {
                     {promo.destino}
                   </h3>
                   
-                  <div className="flex justify-between items-baseline mt-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 transform group-hover:-translate-y-1">
+                  <div className="flex justify-between items-baseline mt-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 md:transition-opacity md:duration-500 md:transform md:group-hover:-translate-y-1">
                     <span className="text-gray-400 line-through text-sm italic">
                         De: {promo.de}
                     </span>
