@@ -1,5 +1,11 @@
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
+const formatarData = (dataIso) => {
+  if (!dataIso) return "-";
+  const [ano, mes, dia] = dataIso.split('-');
+  return `${dia}/${mes}/${ano}`;
+};
+
 function Resultados() {
   const location = useLocation();
   const dadosBusca = location.state;
@@ -10,14 +16,14 @@ function Resultados() {
     return <Navigate to="/" replace />;
   }
 
-  // informações das lanchas
+  // informações das lanchas (sem data fixa - usa a data da busca)
   const lanchas = [
     { 
       tripId: "lancha1", 
       nome: "Vovô Nair", 
       preco: 120, 
       tempo: "02H", 
-      data: "15/05/2026 - 09H",
+      horarioPartida: "09H",
       imagem: "/lancha1.jpg" 
     },
     { 
@@ -25,7 +31,7 @@ function Resultados() {
       nome: "Mamãe Chamou", 
       preco: 130, 
       tempo: "01H 30min", 
-      data: "15/05/2026 - 10H",
+      horarioPartida: "10H",
       imagem: "/lancha2.jpg"
     },
     { 
@@ -33,7 +39,7 @@ function Resultados() {
       nome: "Erica Juliana", 
       preco: 110, 
       tempo: "03H", 
-      data: "16/05/2026 - 08H",
+      horarioPartida: "08H",
       imagem: "/lancha3.jpg"
     },
     { 
@@ -41,7 +47,7 @@ function Resultados() {
       nome: "Exp.Ana Carolina", 
       preco: 125, 
       tempo: "02H 15min", 
-      data: "16/05/2026 - 14H",
+      horarioPartida: "14H",
       imagem: "/lancha4.jpg"
     },
   ];
@@ -105,7 +111,7 @@ function Resultados() {
                       Data de Partida
                     </p>
                     <p className="font-extrabold text-sky-600 text-lg">
-                      {lancha.data}
+                      {formatarData(dadosBusca.date)} - {lancha.horarioPartida}
                     </p>
                   </div>
                 </div>
@@ -119,9 +125,7 @@ function Resultados() {
                         nome: lancha.nome,
                         preco: lancha.preco,
                         tempo: lancha.tempo,
-                        data: lancha.data,
                         imagem: lancha.imagem,
-
                         date: dadosBusca.date,
                         origem: dadosBusca.origem,
                         destino: dadosBusca.destino,

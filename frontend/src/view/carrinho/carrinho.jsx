@@ -3,6 +3,12 @@ import { useNavigate } from "react-router-dom";
 
 import { useCart } from "../../context/useCart";
 
+const formatarData = (dataIso) => {
+  if (!dataIso) return "-";
+  const [ano, mes, dia] = dataIso.split('-');
+  return `${dia}/${mes}/${ano}`;
+};
+
 function Carrinho() {
   const navigate = useNavigate();
   const { cart, clearCart } = useCart();
@@ -35,7 +41,7 @@ function Carrinho() {
   const resumoItems = [
     { label: "Rota", value: `${cart.origem} -> ${cart.destino}` },
     { label: "Lancha", value: cart.nome },
-    { label: "Partida", value: cart.dataPartida || cart.date },
+    { label: "Partida", value: formatarData(cart.date) },
     { label: "Tempo de viagem", value: cart.tempo },
     { label: "Passageiros", value: cart.passageiros },
     { label: "Assentos", value: cart.seats?.join(", ") },

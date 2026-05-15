@@ -5,7 +5,6 @@ const CartContext = createContext();
 const defaultCart = {
   tripId: "",
   date: "",
-  dataPartida: "",
   seats: [],
   price: 0,
   total: 0,
@@ -60,7 +59,6 @@ export function CartProvider({ children }) {
     setCart({
       tripId: data.tripId || "",
       date: data.date || "",
-      dataPartida: data.dataPartida || "",
       seats,
       price,
       total: data.total ?? price * seats.length,

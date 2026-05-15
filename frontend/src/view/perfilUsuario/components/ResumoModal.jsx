@@ -2,6 +2,12 @@ import { createPortal } from "react-dom";
 import { useEffect } from "react";
 import { X } from "lucide-react";
 
+const formatarData = (dataIso) => {
+  if (!dataIso) return "--";
+  const [ano, mes, dia] = dataIso.split('-');
+  return `${dia}/${mes}/${ano}`;
+};
+
 function ResumoModal({ order, onClose }) {
   useEffect(() => {
     document.body.classList.add("overflow-hidden");
@@ -13,7 +19,7 @@ function ResumoModal({ order, onClose }) {
   const itens = [
     { label: "Código da reserva", value: order.id, mono: true },
     { label: "Embarcação", value: order.nome },
-    { label: "Data de partida", value: order.dataPartida || "--" },
+    { label: "Data de partida", value: formatarData(order.date) },
     { label: "Duração da viagem", value: order.tempo || "--" },
     { label: "Assentos", value: order.seats?.join(", ") || "--" },
     { label: "Passageiros", value: order.passageiros || order.seats?.length || "--" },
