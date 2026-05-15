@@ -35,10 +35,6 @@ const router = createBrowserRouter ([
         path: "/checkout",
         element: <Checkout />
       },
-      {
-        path: "/success",
-        element: <Success />
-      }
     ],
   },
   {
@@ -81,10 +77,18 @@ const router = createBrowserRouter ([
       },
     ],
   },
- {
+  {
     path: "/manutencao",
     element: <Manutencao />,
   },
+  {
+    path: "/success",
+    element: (
+      <PrivateRoute>
+        <Success />
+      </PrivateRoute>
+    )
+  }
 ]);
 
 function App() {
