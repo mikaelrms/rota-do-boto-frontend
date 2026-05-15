@@ -33,7 +33,7 @@ const Promocoes = () => {
         
         <div className="mb-12">
           <h2 className="text-3xl md:text-4xl font-bold italic drop-shadow-lg">
-            Promoções <span className="text-sky-600">Imperdíveis!</span>
+            Promoções <span className="text-sky-600 drop-shadow-[0_2px_2px_rgba(0,0,0,0.6)]">Imperdíveis!</span>
           </h2>
         </div>
 
@@ -75,8 +75,8 @@ const Promocoes = () => {
                     <span className="text-gray-400 line-through text-sm italic">
                         De: {promo.de}
                     </span>
-                    <span className="text-sky-700 font-bold text-2xl drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
-                        {promo.por}
+                    <span className="text-sky-400 font-bold text-xl drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
+                        a partir de {promo.por}
                     </span>
                   </div>
                 </div>

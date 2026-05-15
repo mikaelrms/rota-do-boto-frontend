@@ -18,8 +18,8 @@ const Recepcao = () => {
       <div className="relative z-10 text-center px-4 flex flex-col items-center pt-48">
         
         {/* Título Principal */}
-        <h1 className="text-white text-4xl sm:text-5xl md:text-7xl font-extrabold drop-shadow-2xl mb-2">
-          Seja Bem-vindo ao <span className="text-sky-700">Rota do Boto</span>
+        <h1 className="text-white text-4xl sm:text-5xl md:text-7xl font-extrabold drop-shadow-lg mb-2">
+          Seja Bem-vindo a <span className="text-sky-700">Rota do Boto</span>
         </h1>
 
         {/* Subtítulo H2 - Aumentando o mb para descer o card */}

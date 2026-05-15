@@ -56,27 +56,15 @@ export default function Navbar() {
               onClick={() => navigate("/carrinho")}
               className="relative">
               <ShoppingCart
-                className="text-white/55 cursor-pointer hover:text-white transition-colors"
+                className="text-white cursor-pointer hover:text-blue-200 transition-colors text-sm"
                 size={22}
               />
 
               {/* BADGE */}
               {cart?.seats?.length > 0 && (
                 <div
-                  className="
-                    absolute
-                    -top-2
-                    -right-2
-                    w-5
-                    h-5
-                    rounded-full
-                    bg-red-500
-                    text-white
-                    text-[10px]
-                    font-bold
-                    flex
-                    items-center
-                    justify-center">
+                  className="absolute-top-2-right-2 w-5 h-5 rounded-full bg-red-500 text-white text-[10px]
+                    font-bold flex items-center justify-center">
                   {cart.seats.length}
                 </div>
               )}
@@ -114,19 +102,7 @@ export default function Navbar() {
 
             <Link
               to="/login"
-              className="
-                bg-white
-                text-black
-                px-4
-                py-1
-                rounded-full
-                text-sm
-                font-medium
-                transition-transform
-                duration-200
-                hover:scale-105
-              "
-            >
+              className="bg-white text-black px-4 py-1 rounded-full text-sm font-medium transition-transform duration-200 hover:scale-105">
               Entrar
             </Link>
           </>

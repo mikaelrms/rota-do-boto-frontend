@@ -23,7 +23,7 @@ function Home() {
     
     {/* DESTINOS EM ALTA */}
     <div className="p-8 h-fit pb-20 bg-transparent rounded-lg">
-      <h1 className="text-3xl mb-8 md:text-4xl font-bold italic drop-shadow-lg text-white">Destinos em alta</h1>
+      <h1 className="text-3xl mb-8 md:text-4xl font-bold italic drop-shadow-lg text-white">Destinos <span className="text-sky-600 drop-shadow-[0_2px_2px_rgba(0,0,0,0.6)]">em alta</span></h1>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
         {listaCidades.map((cidade) => {
           return (
@@ -40,7 +40,8 @@ function Home() {
     
     {/* VIAGENS MAIS PROCURADAS */}
     <section className="p-8 h-fit pb-12 mt-1">
-      <h2 className="text-3xl mb-8 md:text-4xl font-bold italic drop-shadow-lg text-white">Viagens mais procuradas</h2>
+      <h2 className="text-3xl mb-8 md:text-4xl font-bold italic drop-shadow-lg text-white">Viagens mais 
+        <span className="text-sky-600 drop-shadow-[0_2px_2px_rgba(0,0,0,0.6)]">procuradas</span></h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 lg:gap-6 h-[400px] pb-12 bg-transparent">
         <div className="hidden lg:block lg:row-span-2">
