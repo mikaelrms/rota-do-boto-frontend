@@ -54,10 +54,14 @@ function Resultados() {
 
   return (
     <div className="w-full min-h-screen bg-gray-100 p-4 sm:p-6 flex flex-col items-center">
-      <div className="w-full max-w-5xl">
-        <h1 className="text-4xl font-bold text-center text-sky-700 mb-6">
-          Lanchas disponíveis:
+      <div className="w-full max-w-5xl mb-8">
+        <h1 className="text-2xl font-bold text-left text-sky-700 mb-2">
+          Escolha sua embarcação
         </h1>
+        <p className="text-gray-700 text-[16px] mb-4 text-left">
+          {dadosBusca.origem} → {dadosBusca.destino} 
+        </p>
+
 
         <div className="bg-white border border-gray-200 rounded-3xl p-6 shadow-xl flex flex-col gap-6">
           
@@ -89,9 +93,9 @@ function Resultados() {
                       <span>★ 4.8 (Avaliações)</span>
                     </div>
 
-                    <p className="text-gray-400 mt-3 font-bold text-sm uppercase">
+                    <p className="text-gray-400 mt-3 font-bold text-xs uppercase">
                       Preço:{" "}
-                      <span className="text-sky-600 text-xl">
+                      <span className="text-sky-600 text-xl font-bold">
                         R${lancha.preco},00
                       </span>
                     </p>
@@ -101,7 +105,7 @@ function Resultados() {
                     <p className="text-gray-400 text-[10px] font-bold uppercase mb-1">
                       Tempo de Viagem
                     </p>
-                    <p className="font-extrabold text-sky-600 text-3xl">
+                    <p className="font-bold text-sky-600 text-[18px]">
                       {lancha.tempo}
                     </p>
                   </div>
@@ -110,7 +114,7 @@ function Resultados() {
                     <p className="text-gray-400 text-[10px] font-bold uppercase mb-1">
                       Data de Partida
                     </p>
-                    <p className="font-extrabold text-sky-600 text-lg">
+                    <p className="font-bold text-sky-600 text-lg">
                       {formatarData(dadosBusca.date)} - {lancha.horarioPartida}
                     </p>
                   </div>
@@ -133,7 +137,7 @@ function Resultados() {
                       },
                     })
                   }
-                    className="w-full sm:w-auto bg-sky-700 hover:bg-sky-800 text-white font-bold py-3 px-10 rounded-2xl shadow-md transition-all hover:scale-105 text-base uppercase">
+                    className="w-full sm:w-auto mb-3 bg-sky-700 hover:bg-sky-800 text-white font-bold py-3 px-6 rounded-2xl shadow-md transition-all hover:scale-105 text-sm uppercase">
                     Comprar passagem
                   </button>
                 </div>

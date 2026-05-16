@@ -41,21 +41,21 @@ function Home() {
     {/* VIAGENS MAIS PROCURADAS */}
     <section className="p-8 h-fit pb-12 mt-1">
       <h2 className="text-3xl mb-8 md:text-4xl font-bold italic drop-shadow-lg text-white">Viagens mais 
-        <span className="text-sky-600 drop-shadow-[0_2px_2px_rgba(0,0,0,0.6)]">procuradas</span></h2>
+        <span className="text-sky-600 drop-shadow-[0_2px_2px_rgba(0,0,0,0.6)]"> procuradas</span></h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 lg:gap-6 h-[400px] pb-12 bg-transparent">
         <div className="hidden lg:block lg:row-span-2">
           <CardViagem 
             titulo="Manaus para Tefé"
-            descricao="Viagem com saída prevista para o próxima semana, com duração de 4 horas. Aproveite a oportunidade!"
-            preco="R$ 200,00"
+            descricao="Viagem com saída prevista para a próxima semana, com duração de 4 horas. Aproveite a oportunidade!"
+            preco=" R$200,00"
             imagem="/tefe.jpg"
           />
         </div>
-        <CardViagem titulo="Manaus para Parintins" preco="R$ 80,00" imagem="/parintins2.jpg" />  
-        <CardViagem titulo="Tabatinga para Manaus" preco="R$ 90,00" imagem="/manaus3.jpg" />
-        <CardViagem titulo="Coari para Codajás"  preco="R$ 75,00" imagem="/codajas.jpeg" />
-        <CardViagem titulo="Manaus para Coari" preco="R$ 120,00" imagem="/coari.jpeg" />
+        <CardViagem titulo="Manaus para Parintins" preco=" R$80,00" imagem="/parintins2.jpg" />  
+        <CardViagem titulo="Tabatinga para Manaus" preco=" R$90,00" imagem="/manaus3.jpg" />
+        <CardViagem titulo="Coari para Codajás"  preco=" R$75,00" imagem="/codajas.jpeg" />
+        <CardViagem titulo="Manaus para Coari" preco=" R$120,00" imagem="/coari.jpeg" />
       </div>
       </section>
     
