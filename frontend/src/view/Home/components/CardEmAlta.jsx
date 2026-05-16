@@ -13,7 +13,8 @@ function CardEmAlta({ imagem, nome }) {
       
       <div className="absolute inset-0 flex items-end p-3 sm:p-4 md:p-5 lg:p-6">
         
-        <h3 className="text-white text-sm sm:text-lg md:text-xl lg:text-2xl font-bold italic drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)] transition-transform duration-500 group-hover:-translate-y-2" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700 }}>
+        <h3 className="text-white text-sm sm:text-lg md:text-xl lg:text-2xl font-bold italic drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)] 
+        transition-transform duration-500 group-hover:-translate-y-2">
           {nome}
         </h3>
       
