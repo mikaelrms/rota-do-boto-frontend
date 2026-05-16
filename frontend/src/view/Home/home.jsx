@@ -47,7 +47,7 @@ function Home() {
           <CardViagem 
             titulo="Manaus para Tefé"
             descricao="Viagem com saída prevista para o próxima semana, com duração de 4 horas. Aproveite a oportunidade!"
-            preco="R$ 200,00"
+            preco="R$ 120,00"
             imagem="/tefe.jpg"
           />
         </div>
