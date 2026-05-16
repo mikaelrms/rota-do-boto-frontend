@@ -52,32 +52,34 @@ const Promocoes = () => {
           {dadosPromo.map((promo) => (
             <SwiperSlide key={promo.id}>
               
-              <div className="relative group overflow-hidden h-44 sm:h-52 md:h-56 lg:h-48 xl:h-50 w-full shadow-lg border border-white/10 bg-transparent cursor-pointer rounded-2xl">
-                
-                <img 
-                  src={promo.img} 
-                  alt={promo.destino} 
-                  className="object-cover w-full h-full transition-transform duration-700 ease-out group-hover:scale-107" 
-                />
-                
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-100"></div>
-                
-                <div className="absolute top-4 right-4 bg-orange-600 text-white font-bold px-3 py-1 rounded-full text-xs animate-pulse">
-                  {promo.desconto}
-                </div>
-
-                <div className="absolute inset-0 flex flex-col justify-end p-6">
-                  <h3 className="text-white text-2xl font-bold italic drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)] transition-transform duration-500 group-hover:-translate-y-2" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700 }}>
-                    {promo.destino}
-                  </h3>
+              <div className="h-44 sm:h-52 md:h-56 lg:h-48 xl:h-50 flex items-center">
+                <div className="relative group overflow-hidden h-72 w-full shadow-lg border border-white/10 bg-transparent cursor-pointer rounded-2xl mx-auto transform scale-75 sm:scale-90 md:scale-95 lg:scale-100 transition-transform duration-300">
                   
-                  <div className="flex justify-between items-baseline mt-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 md:transition-opacity md:duration-500 md:transform md:group-hover:-translate-y-1">
-                    <span className="text-gray-400 line-through text-sm italic">
-                        De: {promo.de}
-                    </span>
-                    <span className="text-sky-400 font-bold text-xl drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
-                        a partir de {promo.por}
-                    </span>
+                  <img 
+                    src={promo.img} 
+                    alt={promo.destino} 
+                    className="object-cover w-full h-full transition-transform duration-700 ease-out group-hover:scale-107" 
+                  />
+                  
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-100"></div>
+                  
+                  <div className="absolute top-4 right-4 bg-orange-600 text-white font-bold px-3 py-1 rounded-full text-xs animate-pulse">
+                    {promo.desconto}
+                  </div>
+
+                  <div className="absolute inset-0 flex flex-col justify-end p-6">
+                    <h3 className="text-white text-2xl font-bold italic drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)] transition-transform duration-500 group-hover:-translate-y-2" style={{ fontFamily: "'Inter', sans-serif", fontWeight: 700 }}>
+                      {promo.destino}
+                    </h3>
+                    
+                    <div className="flex justify-between items-baseline mt-3 opacity-100 md:opacity-0 md:group-hover:opacity-100 md:transition-opacity md:duration-500 md:transform md:group-hover:-translate-y-1">
+                      <span className="text-gray-400 line-through text-sm italic">
+                          De: {promo.de}
+                      </span>
+                      <span className="text-sky-400 font-bold text-xl drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)]">
+                          a partir de {promo.por}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
