@@ -51,10 +51,10 @@ function Home() {
             imagem="/tefe.jpg"
           />
         </div>
-        <CardViagem titulo="Manaus para Parintins" preco="R$ 80,00" imagem="/parintins2.jpg" />  
-        <CardViagem titulo="Tabatinga para Manaus" preco="R$ 90,00" imagem="/manaus3.jpg" />
-        <CardViagem titulo="Coari para Codajás"  preco="R$ 75,00" imagem="/codajas.jpeg" />
-        <CardViagem titulo="Manaus para Coari" preco="R$ 120,00" imagem="/coari.jpeg" />
+        <CardViagem titulo="Manaus para Parintins" preco=" R$80,00" imagem="/parintins2.jpg" />  
+        <CardViagem titulo="Tabatinga para Manaus" preco=" R$90,00" imagem="/manaus3.jpg" />
+        <CardViagem titulo="Coari para Codajás"  preco=" R$75,00" imagem="/codajas.jpeg" />
+        <CardViagem titulo="Manaus para Coari" preco=" R$120,00" imagem="/coari.jpeg" />
       </div>
       </section>
     
