@@ -1,27 +1,27 @@
 import './App.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { lazy, Suspense } from 'react'
 
 import Layout from './view/components/Layout/layout.jsx'
 import AuthLayout from './view/components/AuthLayout/authLayout.jsx'
 import PrivateRoute from "./routes/PrivateRoute";
 import { ScrollSearchProvider } from './context/ScrollSearchContext.jsx';
 
-import LoginPage from './view/loginPage/loginPage'
-import Home from './view/Home/home.jsx'
-import CadastroForm from './view/cadastro/cadastro.jsx'
-import PaginaPerfil from './view/perfilUsuario/PaginaPerfil.jsx';
-import Resultados from './view/resultados/resultados.jsx'
-import Pedido from './view/pedido/pedido.jsx'
-import Carrinho from './view/carrinho/carrinho.jsx' 
-import Manutencao from './view/manutencao/manutencao.jsx'
-import Checkout from './view/checkout/checkout.jsx'
-import Success from './view/checkout/success.jsx'
+// Lazy imports — cada página só carrega quando o usuário navegar até ela
+const LoginPage     = lazy(() => import('./view/loginPage/loginPage'))
+const Home          = lazy(() => import('./view/Home/home.jsx'))
+const CadastroForm  = lazy(() => import('./view/cadastro/cadastro.jsx'))
+const PaginaPerfil  = lazy(() => import('./view/perfilUsuario/PaginaPerfil.jsx'))
+const Resultados    = lazy(() => import('./view/resultados/resultados.jsx'))
+const Pedido        = lazy(() => import('./view/pedido/pedido.jsx'))
+const Carrinho      = lazy(() => import('./view/carrinho/carrinho.jsx'))
+const Manutencao    = lazy(() => import('./view/manutencao/manutencao.jsx'))
+const Checkout      = lazy(() => import('./view/checkout/checkout.jsx'))
+const Success       = lazy(() => import('./view/checkout/success.jsx'))
 
-
-
-const router = createBrowserRouter ([
+const router = createBrowserRouter([
   {
-    element: <AuthLayout />, 
+    element: <AuthLayout />,
     children: [
       {
         path: "/login",
@@ -33,19 +33,22 @@ const router = createBrowserRouter ([
       },
       {
         path: "/checkout",
-        element: <Checkout />
+        element:
+          <PrivateRoute>
+            <Checkout />
+          </PrivateRoute>
       },
     ],
   },
   {
-    element: <Layout />, 
+    element: <Layout />,
     children: [
       {
         path: "/",
-        element: 
-        <ScrollSearchProvider>
-          <Home />
-        </ScrollSearchProvider>
+        element:
+          <ScrollSearchProvider>
+            <Home />
+          </ScrollSearchProvider>
       },
       {
         path: "/perfil",
@@ -92,12 +95,14 @@ const router = createBrowserRouter ([
 ]);
 
 function App() {
-
-return (
-  <>
-  <RouterProvider router = {router} />
-  </>
-)
+  return (
+    // Suspense é obrigatório com lazy — exibe um fallback enquanto a página carrega
+    <Suspense fallback={
+      <div className="w-full h-full border-[3px] border-[#009EE3] border-t-transparent rounded-full animate-spin" />
+    }>
+      <RouterProvider router={router} />
+    </Suspense>
+  )
 }
 
 export default App
