@@ -18,6 +18,7 @@ const Carrinho      = lazy(() => import('./view/carrinho/carrinho.jsx'))
 const Manutencao    = lazy(() => import('./view/manutencao/manutencao.jsx'))
 const Checkout      = lazy(() => import('./view/checkout/checkout.jsx'))
 const Success       = lazy(() => import('./view/checkout/success.jsx'))
+const Admin = lazy(() => import('./view/admin/Admin.jsx'))
 
 const router = createBrowserRouter([
   {
@@ -91,6 +92,10 @@ const router = createBrowserRouter([
         <Success />
       </PrivateRoute>
     )
+  },
+  {
+  path: "/admin",
+  element: <Admin />
   }
 ]);
 
@@ -98,7 +103,7 @@ function App() {
   return (
     // Suspense é obrigatório com lazy — exibe um fallback enquanto a página carrega
     <Suspense fallback={
-      <div className="w-full h-full border-[3px] border-[#009EE3] border-t-transparent rounded-full animate-spin" />
+      <>Carregando . . .</>
     }>
       <RouterProvider router={router} />
     </Suspense>
