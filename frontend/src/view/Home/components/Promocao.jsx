@@ -10,10 +10,10 @@ import 'swiper/css/pagination';
 const Promocoes = () => {
   const { scrollToSearch } = useScrollSearch();
   const dadosPromo = [
-    { id: 1, destino: "Itapiranga para Urucará", img: "/urucara.jpg", desconto: "20% OFF", de: "R$ 350", por: "R$ 280" },
-    { id: 2, destino: "Manaus para Parintins", img: "/parintins2.jpg", desconto: "15% OFF", de: "R$ 180", por: "R$ 153" },
-    { id: 3, destino: "Tefé para Manaus", img: "/manaus3.jpg", desconto: "10% OFF", de: "R$ 290", por: "R$ 261" },
-    { id: 4, destino: "Manaus para Anori", img: "/anori.jpg", desconto: "25% OFF", de: "R$ 400", por: "R$ 300" },
+    { id: 1, destino: "Itapiranga para Urucará", img: "/urucara.jpg", desconto: "20% OFF", de: "R$ 120", por: "R$ 90" },
+    { id: 2, destino: "Manaus para Parintins", img: "/parintins2.jpg", desconto: "15% OFF", de: "R$ 120", por: "R$ 80" },
+    { id: 3, destino: "Tefé para Manaus", img: "/manaus3.jpg", desconto: "10% OFF", de: "R$ 130", por: "R$ 95" },
+    { id: 4, destino: "Manaus para Anori", img: "/anori.jpg", desconto: "25% OFF", de: "R$ 120", por: "R$ 90" },
   ];
 
   return (
@@ -52,7 +52,7 @@ const Promocoes = () => {
           {dadosPromo.map((promo) => (
             <SwiperSlide key={promo.id}>
               
-              <div className="relative group overflow-hidden h-72 w-full shadow-lg border border-white/10 bg-transparent cursor-pointer rounded-2xl">
+              <div className="relative group overflow-hidden h-60 w-full shadow-lg border border-white/10 bg-transparent cursor-pointer rounded-2xl">
                 
                 <img 
                   src={promo.img} 
